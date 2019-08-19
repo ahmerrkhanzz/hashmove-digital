@@ -1,0 +1,15 @@
+@import '../../../../assets/scss/_variables';
+.user-desk {
+    .left-section {
+        padding-top: 40px;
+    }
+    .right-section-portal {
+        padding-top: 75px;
+        padding-bottom: 75px;
+    }
+    @media (max-width: $screen-sm-screen) {
+            .left-section {
+                display: none;
+            }
+    }
+}

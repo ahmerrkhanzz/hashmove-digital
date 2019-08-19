@@ -1,0 +1,91 @@
+@import "../../../../assets/scss/_variables";
+
+// table
+
+.table {
+  thead {
+    border: 1px solid $grey-border;
+    background: #fff;
+
+    th {
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+      font-weight: $font-weight-normal;
+      color: $dark-grey-blue;
+      border: 0;
+      text-transform: uppercase;
+      &:nth-child(2) {
+        width: 5rem
+      }
+      &:nth-child(6){
+        width: 9rem;
+      }
+    }
+  }
+
+  tbody {
+    border: 1px solid $grey-border;
+    border-top: 0;
+
+    tr {
+      border-bottom: 1px solid $grey-border;
+      transition: 0.8s;
+
+      td {
+        padding: 0.75rem 0.75rem;
+        border: 0;
+        vertical-align: middle;
+        font-family: $font-proxima;
+
+        &.shipping-line {
+          color: $sky-blue-default;
+          font-weight: $font-weight-mid;
+        }
+
+        .flag-container {
+          float: left;
+          border: 1px solid $primary-grey;
+          margin-right: 10px;
+          display: flex;
+          margin-top: 5px;
+
+          img {
+            width: 16px;
+            height: 12px;
+          }
+        }
+        .sub-detail {
+          font-size: $font-size-medium;
+          color: $primary-grey;
+          font-family: $font-proxima;
+          display: block;
+        }
+      }
+
+      &:hover {
+        box-shadow: 0px 0px 50px 0px rgba(51, 59, 69, 0.15);
+      }
+    }
+  }
+}
+
+.vessel-sched-not-found {
+  p {
+      font-family: $font-proxima;
+      font-size: 1rem;
+      margin-bottom: 12px;
+      line-height: 20px;
+      padding: 1rem;
+  }
+}
+
+.user-modal-title {
+  &.vessel {
+    font-weight: $font-weight-normal;
+
+    strong {
+      font-weight: $font-weight-mid;
+      font-size: 1.25rem;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+@import '../../../../assets/scss/_variables.scss';
+:host {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+.stepper-head {
+    flex: 1;
+}
+
+.step-space-between {
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.step-line {
+    flex: 1 1 auto;
+    display: block;
+    border-color: #bdbdbd;
+    margin-left: 14px;
+    border-top-style: solid;
+    border-top-width: 1px;
+    margin-right: 14px;
+}

@@ -1,0 +1,332 @@
+@import "../../../../assets/scss/_variables";
+.seaRates-modal {
+  .modal-body {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 0;
+    border-bottom-left-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+    overflow-y: auto;
+    max-height: 700px;
+
+    .model-sub-head {
+      color: $secondary-grey;
+      font-family: $font-proxima;
+      font-weight: $font-weight-mid;
+      font-size:$font-size-medium;
+      text-transform: uppercase;
+    }
+    .popup-white {
+      &.bg-white {
+        padding-right: 15px;
+        margin-left: -30px;
+        margin-right: -30px;
+        padding-left: 15px;
+        padding-bottom: 30px;
+      }
+    }
+    .combine-filed-popup {
+      border-radius: 4px;
+      &-left {
+        font-size: 1rem;
+        color: #2b2b2b;
+        font-family: "proxima-nova", sans-serif;
+        font-weight:$font-weight-mid;
+        background: #f1f0f0;
+        line-height: 1;
+        padding: 15px 10px;
+        border: 1px solid $input-border;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        &-btn {
+          padding: 0;
+          .dropdown-toggle {
+            height: 48px;
+            margin: 0 !important;
+            width: 100%;
+            border: 1px solid $input-border;
+            background: #f1f0f0;
+            border-radius: 4px 0 0px 4px;
+            text-align: left;
+            &:hover,
+            &:focus {
+              box-shadow: none !important;
+              outline: 0 !important;
+            }
+            &:after {
+              position: absolute;
+              right: 15px;
+              top: 22px;
+            }
+          }
+          .dropdown-menu {
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid $primary-color;
+            box-shadow: 0 0 5px -1px $primary-color;
+            .dropdown-item {
+              &.custom-label {
+                color: $primary-color;
+                font-family: $font-proxima;
+                font-size: $font-size-medium;
+                padding: 0.5rem 1.5rem;
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+                img {
+                  margin-right: 0.5rem;
+                }
+                &:hover {
+                  color: $primary-color;
+                }
+              }
+              &.charges-form {
+                width: 313px;
+                margin: 0;
+                padding: 0.25rem 0;
+                .form-control {
+                  font-family: $font-proxima;
+                  font-size: $font-size-medium !important;
+                  color: $disabled-text-color !important;
+                }
+              }
+              &:active,
+              &:hover {
+                background: none !important;
+                color: inherit;
+              }
+            }
+            .additional-dialog {
+              width: 343px;
+              overflow: unset;
+              margin: 0;
+              padding: 15px 0;
+            }
+          }
+        }
+      }
+      &-mid {
+        input {
+          border-radius: 0px !important;
+          border-color: #ced4da;
+          border-left: 0;
+        }
+      }
+      &-right {
+        input {
+          border-left: 0;
+          border-top-left-radius: 0px !important;
+          border-bottom-left-radius: 0px !important;
+          border-color: #ced4da;
+          height: 48px;
+          &:hover,
+          &:focus {
+            box-shadow: none !important;
+            outline: 0 !important;
+          }
+        }
+        &.hasDoubleRates {
+          .form-control {
+            width: 50%;
+            float: left;
+          }
+          span {
+            position: absolute;
+            top: -1.5rem;
+            &:first-child {
+              left: 1rem;
+            }
+            &:nth-child(2) {
+              left: 5.7rem;
+            }
+          }
+        }
+      }
+      .active {
+        box-shadow: 0 0 0 1px $color-topmenuactive;
+        border-radius: 4px;
+        position: relative;
+      }
+      &-delete {
+        position: absolute;
+        right: 10px;
+        top: -4px;
+        display: none;
+      }
+      &:hover {
+        transition: 1s all ease-in;
+        transition-delay: 2s;
+        .combine-filed-popup-delete {
+          transition: 2s all ease-in;
+          transition-delay: 2s;
+          display: block;
+        }
+      }
+    }
+    a.addAnother {
+      color: $primary-color;
+      font-family: $font-proxima;
+      font-weight: $font-weight-mid;
+      font-size: $font-size-medium;
+      position: relative;
+      padding-left: 30px;
+      &:before {
+        content: url("../../../../assets/images/icons/icon_add.svg");
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 16px;
+        height: 16px;
+      }
+    }
+    .dropdown-menu {
+      padding: 0;
+      button {
+        .flag-container {
+          width: 15px;
+          height: 12px;
+          display: flex;
+          margin-top: 5px;
+          margin-right: 10px !important;
+          img {
+            border: 1px solid $primary-grey;
+          }
+        }
+      }
+    }
+    .origin,
+    .destination {
+      position: relative;
+      >.flag-container {
+        width: 16px;
+        height: 24px;
+        align-items: center;
+        position: absolute;
+        left: 10px;
+        top: 11px;
+        img {
+          border: 1px solid $primary-grey;
+        }
+      }
+      .routeSelected {
+        padding-left: 30px !important;
+      }
+      .dropdown {
+        &-pickup {
+          width: 100%;
+          position: absolute;
+          z-index: 999999;
+          background:$color-white;
+          border: 1px solid $primary-color;
+          border-radius: 0.25rem;
+          margin-top: 0.2rem;
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            li {
+              padding: 1rem;
+              &:hover {
+                cursor: pointer;
+                background: $port-pickup-background;
+                border-radius: 4px;
+              }
+              span {
+                font-family: $font-proxima;
+                font-size: $font-size-large;
+                margin-left: 1rem;
+                font-weight: $font-weight-mid;
+                text-transform: uppercase;
+              }
+              p {
+                color:$secondary-text-color;
+                font-size: 0.75rem;
+                margin-bottom: 0;
+                padding: 0 2rem;
+              }
+              &:first-child {
+                border-bottom: 1px solid #dedfe0;
+              }
+              .ports-dropdown {
+                position: relative;
+                margin-top: 0.7rem;
+                .flag-container {
+                  width: 16px;
+                  height: 24px;
+                  align-items: center;
+                  position: absolute;
+                  left: 10px;
+                  top: 11px;
+                  img {
+                    border: 1px solid $primary-grey;
+                  }
+                }
+              }
+              .dropdown-menu {
+                .flag-container {
+                  position: relative;
+                  left: 0px;
+                  top: 0px;
+                  margin-top: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .shippingline {
+      position: relative;
+      &-container {
+        position: absolute;
+        img {
+          width: 1.5rem;
+          height: 1.5rem;
+          top: 0.75rem;
+          position: absolute;
+          left: 1rem;
+        }
+      }
+    }
+  }
+  .date-control {
+    .dateIcon {
+      position: relative;
+      input {
+        padding-left: 2.625rem;
+      }
+      &:before {
+        content: url("../../../../assets/images/icons/Icons_Calendar.svg");
+        position: absolute;
+        left: 15px;
+        top: 14px;
+        width: 16px;
+        height: 16px;
+        z-index: 4;
+        opacity: 0.5;
+      }
+    }
+  }
+ ngb-typeahead-window {
+  ngb-highlight {
+    white-space: normal;
+  }
+ }
+  .custom-multiselect {
+    .ng-select-container {
+      max-height: 155px !important;
+      overflow-y: auto;
+    }
+    img {
+      border-radius: 50%;
+    }
+    .ng-value-label {
+      padding: 0.25rem !important;
+      font-family: $font-proxima;
+    }
+    .ng-option {
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+    }
+  }
+}

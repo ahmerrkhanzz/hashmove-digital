@@ -1,0 +1,159 @@
+@import "../../../../../../assets/scss/_variables";
+
+.registration {
+  h5 {
+    .dir-otherLanguage {
+      font-family: $font-NeoSansArabic-Medium;
+    }
+  }
+
+  .services {
+    .service-btn {
+      border-radius: 4px;
+      border: 1px solid $input-border;
+      background: $white-color;
+      height: 60px;
+      position: relative;
+
+      span:nth-child(2) {
+        font-family: $font-NeoSansArabic-Regular;
+      }
+
+      &.active {
+        box-shadow: 0px 5px 20px 0px rgba(0, 162, 223, 0.15) !important;
+        border-radius: 4px;
+        border: 1px solid $primary-color !important;
+        background: $white-color !important;
+
+        &:before {
+          content: url("../../../../../../assets/images/icons/selection_tick.svg");
+          width: 44px;
+          height: 44px;
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+      }
+    }
+  }
+
+  .map {
+    .countryBox {
+      position: absolute;
+      z-index: 1;
+      margin-top: 10px;
+      margin-left: 10px;
+      width: 340px;
+
+      .countryImg {
+        position: absolute;
+        top: 36%;
+        left: 15px;
+        border: 1px solid $primary-grey;
+      }
+
+      .selected {
+        padding-left: 40px;
+        border: 1px solid $input-border;
+      }
+
+      input {
+        height: 48px;
+        border: none;
+        &:focus {
+          outline: 0;
+          box-shadow: none;
+        }
+      }
+    }
+
+    @media (max-width: 450px) {
+      .countryBox {
+        width: 270px;
+
+        input {
+          font-size: 12px;
+        }
+      }
+    }
+
+    @media (max-width: 390px) {
+      .countryBox {
+        width: 200px;
+      }
+    }
+
+    agm-map {
+      height: 360px;
+    }
+  }
+
+
+  .dir-otherLanguage {
+    .selected {
+      padding-right: 40px !important;
+    }
+
+  }
+
+  .social {
+    .dropdown-toggle {
+      padding-right: 15px !important;
+
+      &:after {
+        right: 3px !important;
+      }
+    }
+  }
+
+  .info,
+  .info-arb {
+    font-size: $font-size-medium;
+    color: $pagination-text-color;
+  }
+
+  .city-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    
+
+    >.flag-container {
+      width: 16px;
+      height: 12px;
+      position: absolute;
+      left: 20px;
+      top: 19px;
+      display: flex;
+
+      img {
+        width: 16px;
+        height: 12px;
+        border: 1px solid $primary-grey;
+      }
+    }
+    input {
+      &.routeSelected {
+        padding-left: 2.8rem;
+      }
+    }
+    &.ar {
+      >.flag-container {
+        left: auto;
+        right: 20px;
+      }
+
+      input {
+        &.routeSelected {
+          padding-right: 2.8rem;
+          padding-left: .75rem;
+        }
+      }
+    }
+  }
+  .switch-box {
+    a{
+    color: $primary-color;
+  }
+  }
+}

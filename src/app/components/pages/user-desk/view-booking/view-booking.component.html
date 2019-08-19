@@ -1,0 +1,1612 @@
+<!-- view booking -->
+<div class="view-booking" *ngIf="bookingDetails">
+
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
+          <h4 class="view-booking-title">
+            {{bookingDetails.HashMoveBookingNum}}
+          </h4>
+          <small class="view-booking-info">Booked by {{bookingDetails.UserName}} on {{bookingDetails.HashMoveBookingDate | date : "d MMM yyyy"}} at {{bookingDetails.HashMoveBookingDate
+            | date : "H:mm" }} (GMT)</small>
+        </div>
+        <!-- <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+          <div class="view-booking-top-btn mt-1 text-right mb-2">
+            <a href="javascript:;" class="hvr-icon-forward " (click)="printDetail()">
+              <img src="../../../../../assets/images/icons/icon_print.svg" alt="icon" class="icon-size-16 mr-2">
+              <span class="link-hover-grey">Print</span>
+            </a>
+            <a href="javascript:;" class="hvr-icon-forward">
+              <img src="../../../../../assets/images/icons/icon_share_blue.svg" alt="icon" class="icon-size-16 mr-2">
+              <span class="link-hover-grey">Share</span>
+            </a>
+          </div>
+        </div> -->
+      </div>
+
+
+      <div class="col-12 pr-0 pl-0">
+        <a class="hvr-icon-back grey-anc-btn mt-3" href="javascript:;" title="Back to Bookings" routerLink='/provider/allbookings'>
+          <img src="../../../../../assets/images/icons/icon_arrow_left.svg" alt="icon" class="icon-size-14 hvr-icon">
+          <span class="link-hover-grey">Back to Bookings </span>
+        </a>
+      </div>
+      <hr class="hr-solid mt-3 mb-2">
+    </div>
+  </div>
+  <!-- status -->
+  <div class="row mt-3">
+    <div class="col-sm-12 status">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 border-right border-md-0 d-flex justify-content-between">
+              <div class="statusView">
+                <label class="status-label">Booking</label>
+                <strong [ngClass]="{'cancelStatus': bookingDetails.BookingStatus.toLowerCase() == statusCode.cancelled}">{{bookingDetails.BookingStatus.toLowerCase()}}</strong>
+              </div>
+              <div class="d-flex align-items-end statusUpdation">
+                <strong class="d-flex flex-column">
+                  <a class="hvr-icon-forward m-0" *ngIf="bookingDetails.ShippingStatus.toLowerCase() != statusCode.cancelled && bookingDetails.ShippingStatus.toLowerCase() != statusCode.completed && bookingDetails.ShippingStatus.toLowerCase() != statusCode.in_transit"
+                    href="javascript:;" (click)="openDialogue('cancel')">
+                    <span class="link-hover-danger">Cancel Booking</span>
+                  </a>
+                  <a class="hvr-icon-forward m-0" href="javascript:;" *ngIf="bookingDetails.ShippingStatus.toLowerCase() != statusCode.cancelled && bookingDetails.ShippingStatus.toLowerCase() != statusCode.completed"
+                    (click)="openDialogue('updated')">
+                    <span class="link-hover-secondary mr-1">Update Status</span>
+                    <i class="fa fa-angle-right hvr-icon"></i>
+                  </a>
+                </strong>
+              </div>
+            </div>
+
+            <div class="col-md-4 border-right border-md-0 d-flex justify-content-between">
+              <div class="statusView">
+                <label class="status-label">{{(searchCriteria?.searchMode === 'warehouse-lcl')?'Booking':'Shipment'}}</label>
+                <strong [ngClass]="{'cancelStatus': bookingDetails.ShippingStatus.toLowerCase() == statusCode.cancelled}">{{bookingDetails.ShippingStatus.toLowerCase()}}</strong>
+              </div>
+              <div class="d-flex align-items-end statusUpdation">
+                <strong class="d-flex flex-column">
+                  <a class="hvr-icon-forward m-0" *ngIf="bookingDetails?.LastActivity">
+                    <span class="link-hover-danger">{{bookingDetails?.LastActivity}}</span>
+                  </a>
+                  <a class="hvr-icon-forward m-0" href="javascript:;" *ngIf="bookingDetails.ShippingStatus.toLowerCase() != statusCode.cancelled && bookingDetails.ShippingStatus.toLowerCase() != statusCode.completed"
+                    (click)="openDialogue('sub-status')">
+                    <span class="link-hover-secondary mr-1">Update Activity</span>
+                    <i class="fa fa-angle-right hvr-icon"></i>
+                  </a>
+                </strong>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label class="status-label">Billing</label>
+              <strong class="billing-rate">
+                {{bookingDetails.CurrencyCode}} {{bookingDetails.BookingTotalAmount | number: '1.2-2'}}
+                <a class="pull-right hvr-icon-forward" href="javascript:;" (click)="viewInvoice()">
+                  <span class="link-hover-secondary mr-1">View Invoice</span>
+                  <i class="fa fa-angle-right hvr-icon"></i>
+                </a>
+              </strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ status -->
+
+  <!-- shipping details -->
+  <div class="row view-booking-shipment-detail">
+    <h4 class="col-12 view-booking-shipment-detail-heading">Customer Details</h4>
+    <div class="col-xl-8">
+      <div class="card mb-0">
+        <div class="card-body">
+          <div class="card-title">
+            <h5>
+              <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16" title="logo"> INFORMATION
+            </h5>
+          </div>
+          <div class="row">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 customer-detail pr-0">
+              <div class="logo">
+                <img alt="icon" *ngIf="bookingDetails && bookingDetails.BookingUserInfo && bookingDetails.BookingUserInfo?.UserImage" [src]="baseExternalAssets + bookingDetails.BookingUserInfo?.UserImage">
+                <img alt="icon" *ngIf="!bookingDetails.BookingUserInfo?.UserImage" src="../../../../../assets/images/icons/icons_user.svg">
+              </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 customer-name pl-0">
+              <div class="company">
+                <span>Your customer is {{bookingDetails.UserName}} from</span>
+                <p *ngIf="bookingDetails.BookingUserInfo?.UserType == 'CORPORATE'; else custname">
+                  {{bookingDetails.BookingUserInfo?.CompanyName}}</p>
+                <ng-template #custname>
+                  <p>{{bookingDetails.BookingUserInfo?.FirstName}} {{bookingDetails.BookingUserInfo?.LastName}}
+                  </p>
+                </ng-template>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 text-center">
+              <button class="btn btn-outline-primary hvr-sweep-to-right pull-right view-booking-shipment-detail-btn mt-3" placement="bottom"
+                [ngbPopover]="contact">Contact</button>
+              <ng-template #contact>
+                <div class="contact-popup fadeIn animated">
+                  <a [href]="(bookingDetails.BookingUserInfo?.UserType =='CORPORATE')? 'mailto:' + bookingDetails.BookingUserInfo?.CompanyEmail : 'mailto:' + bookingDetails.BookingUserInfo?.PrimaryEmail">
+                    <img src="../../../../../assets/images/icons/icon_email.svg" alt="mail_Icon" class="icon-size-16">
+                    <span>{{bookingDetails.BookingUserInfo?.PrimaryEmail}}</span>
+                    <!-- <span *ngIf="bookingDetails.BookingUserInfo?.UserType=='CORPORATE'; else custemail">
+                  {{bookingDetails.BookingUserInfo?.CompanyEmail}}
+                </span> -->
+                    <!-- <ng-template #custemail>
+                  <span>{{bookingDetails.BookingUserInfo?.PrimaryEmail}}</span>
+                </ng-template> -->
+                  </a>
+                  <p>
+                    <img src="../../../../assets/images/icons/mob-icon.svg" alt="Contact_Icon" class="icon-size-16">
+                    <strong align="middle">{{bookingDetails.BookingUserInfo?.PrimaryPhone}}</strong>
+                    <!-- <ng-template #custcont>
+                  <strong align="middle">{{bookingDetails.BookingUserInfo?.PrimaryPhone}}</strong>
+                </ng-template> -->
+                  </p>
+                </div>
+              </ng-template>
+              <a class="notify mb-1" href="javascript:;" (click)="openDialogue('notify')">
+                Notify Customer
+                <i class="fa fa-angle-right"></i>
+              </a>
+              <a class="notify" href="javascript:;" *ngIf="!(bookingDetails?.EtdUtc)">
+                    Add/Update Vessel Info
+                <i class="fa fa-angle-right"></i>
+              </a>
+              <!-- <button class="btn btn-outline-primary mt-2 hvr-sweep-to-right" *ngIf="!booking?.EtdUtc">Add/Update Vessel Info</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="card grey-background">
+        <div class="card-body pb-5" *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE' && (bookingDetails.ContainerLoad != 'FTL' && bookingDetails.VesselName)">
+          <div class="row details">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.PortCutOffLcl">
+              <img src="../../../../assets/images/icons/icon_anchor.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+              <div class="info">
+                <h5 class="mt-0 mb-1">cut off
+                </h5>
+                <p>{{bookingDetails.PortCutOffLcl | date : "d MMM, yyyy"}}</p>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.EtdLcl">
+              <img src="../../../../../assets/images/icons/Icons_Clock-28.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+              <div class="info">
+                <h5 class="mt-0 mb-1">Departure
+                </h5>
+                <p>{{bookingDetails.EtdLcl | date : "d MMM, yyyy"}}</p>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.TransitTime">
+              <img src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+              <div class="info">
+                <h5 class="mt-0 mb-1">Est. Transit Time
+                </h5>
+                <p>{{bookingDetails.TransitTime}} Days</p>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.VoyageRefNum">
+              <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+              <div class="info">
+                <h5 class="mt-0 mb-1">Voyage #
+                </h5>
+                <p>{{bookingDetails.VoyageRefNum}}</p>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.VesselName">
+              <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+              <div class="info">
+                <h5 class="mt-0 mb-1">Vessel Name</h5>
+                <p>{{bookingDetails.VesselName}}</p>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.VesselCode">
+              <img src="../../../../assets/images/icons/icon_ship.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+              <div class="info">
+                <h5 class="mt-0 mb-1">Vessel #
+                </h5>
+                <p>{{bookingDetails.VesselCode}}</p>
+              </div>
+            </div>
+            <div class="media col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 " *ngIf="bookingDetails.ContainerLoad != 'FTL' && bookingDetails.CarrierName">q
+              <div class="align-self-start mr-3">
+                <img [src]="getCustomerImage(bookingDetails.CarrierImage)" alt="icon" width="62px" height="62px">
+              </div>
+              <div class="media-body">
+                <div class="details">
+                  <h5 class="mt-0 mb-1">SHIPPING LINE</h5>
+                  <p>{{bookingDetails.CarrierName}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad === 'FCL'">
+              <img src="../../../../assets/images/icons/icon_summary.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+              <div class="info">
+                <h5 class="mt-0 mb-1">B/L NUMBER
+                </h5>
+                <a class="hvr-icon-forward m-0"  (click)="openAddBL()" href="javascript:;">
+                  <span class="mr-1 container-link">{{bookingDetails.BLNo || 'Enter B/L No.'}}</span>
+                </a>
+              </div>
+            </div>
+
+
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.ContainerLoad === 'FCL'">
+              <img src="../../../../assets/images/icons/icon_container.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+              <div class="info">
+                <h5 class="mt-0 mb-1">CONTAINER NUMBER(S)
+                </h5>
+                <a class="hvr-icon-forward m-0 container-link" (click)="openAddContainer()" href="javascript:;">
+                  <span class=" mr-1">Enter Container No.</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+          <a href="javascript:;" (click)="showScheduler = !showScheduler" *ngIf="bookingDetails.CarrierName && bookingDetails.ContainerLoad === 'LCL'"
+            class="hvr-icon-back grey-anc-btn change-sche" title="CHANGE SCHEDULE">
+            <img alt="icon" class="icon-size-16 hvr-icon" src="../../../../../assets/images/icons/icon_device_edit.svg">
+            <span class="link-hover-grey">CHANGE SCHEDULE</span>
+          </a>
+        </div>
+        <div class="card-body pb-5" *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE' && bookingDetails.ContainerLoad === 'FTL'">
+          <div class="row details">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.PortCutOffLcl">
+              <img src="../../../../assets/images/icons/icon_anchor.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+              <div class="info">
+                <h5 class="mt-0 mb-1">cut off
+                </h5>
+                <p>{{bookingDetails.PortCutOffLcl | date : "d MMM, yyyy"}}</p>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.EtdLcl">
+              <img src="../../../../../assets/images/icons/Icons_Clock-28.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+              <div class="info">
+                <h5 class="mt-0 mb-1">Departure
+                </h5>
+                <p>{{bookingDetails.EtdLcl | date : "d MMM, yyyy"}}</p>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 border-xs-bottom mb-4 d-flex" *ngIf="bookingDetails.TransitTime">
+              <img src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon" class="icon-size-16 mr-3 align-top">
+              <div class="info">
+                <h5 class="mt-0 mb-1">Est. Transit Time
+                </h5>
+                <p>{{bookingDetails.TransitTime}} Days</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body pb-5" *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE' && wareHouse && wareHouse.parsedGallery">
+          <div class="row" [style.margin-top]="bookingDetails.ShippingModeCode == 'WAREHOUSE' ? '-10px' : '' ">
+            <div class="col-12 warehousing-header d-flex justify-content-between align-items-center mb-1">
+              <div *ngIf="wareHouse.storageType !=='full'">
+                <i class="icon mr-2">
+                  <svg class="icon-size-16" data-name="Layer 1" id="4a12fca4-e18c-475e-bd3e-22cd7e281a70" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <style>
+                        .\33 949e7c5-f605-4c5e-87a9-b12329243bbe {
+                          fill: #738593;
+                        }
+
+                        .\38 d48c0e3-bd07-43c0-8228-4127926f0f37 {
+                          fill: #fff;
+                        }
+                      </style>
+                    </defs>
+                    <g data-name="calendar2" id="8158930b-cef2-4edb-b5e1-ba3f6425e989">
+                      <path class="3949e7c5-f605-4c5e-87a9-b12329243bbe" d="M15,2H3.8A2.8,2.8,0,0,0,1,4.8V16H12.2A2.8,2.8,0,0,0,15,13.2V2Z" data-name="<Compound Path>"
+                        id="faf814a2-64c6-47f5-af64-79a811794184">
+                      </path>
+                      <path class="8d48c0e3-bd07-43c0-8228-4127926f0f37" d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z">
+                      </path>
+                      <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5" id="2b57c6dd-e369-4754-b6e3-53be44a39248"
+                        width="2" x="5">
+                      </rect>
+                      <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5" id="2f608205-02c1-4439-8b66-12ac37428e6c"
+                        width="2" x="9">
+                      </rect>
+                    </g>
+                  </svg>
+                </i>
+                <span class="lable">Booked From</span>
+                <!---->
+                <h4 class="ml-4">{{wareHouse.StoreFrom | date : "d MMM, y"}}</h4>
+                <!---->
+              </div>
+              <div *ngIf="wareHouse.storageType !=='full'">
+                <!---->
+
+                <i class="icon mr-2">
+                  <svg class="icon-size-16" data-name="Layer 1" id="4a12fca4-e18c-475e-bd3e-22cd7e281a70" viewBox="0 0 16 16"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <style>
+                        .\33 949e7c5-f605-4c5e-87a9-b12329243bbe {
+                          fill: #738593;
+                        }
+
+                        .\38 d48c0e3-bd07-43c0-8228-4127926f0f37 {
+                          fill: #fff;
+                        }
+                      </style>
+                    </defs>
+                    <g data-name="calendar2" id="8158930b-cef2-4edb-b5e1-ba3f6425e989">
+                      <path class="3949e7c5-f605-4c5e-87a9-b12329243bbe" d="M15,2H3.8A2.8,2.8,0,0,0,1,4.8V16H12.2A2.8,2.8,0,0,0,15,13.2V2Z" data-name="<Compound Path>"
+                        id="faf814a2-64c6-47f5-af64-79a811794184">
+                      </path>
+                      <path class="8d48c0e3-bd07-43c0-8228-4127926f0f37" d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z">
+                      </path>
+                      <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5" id="2b57c6dd-e369-4754-b6e3-53be44a39248"
+                        width="2" x="5">
+                      </rect>
+                      <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5" id="2f608205-02c1-4439-8b66-12ac37428e6c"
+                        width="2" x="9">
+                      </rect>
+                    </g>
+                  </svg>
+                </i>
+                <span class="lable">Booked Till</span>
+                <!---->
+                <h4 class="ml-4">{{wareHouse.StoreUntill | date : "d MMM, y"}}</h4>
+
+              </div>
+              <div *ngIf="wareHouse.storageType !=='full'">
+                <i class="icon mr-2">
+                  <svg *ngIf="(searchCriteria.storageType === 'shared' || searchCriteria.storageType === 'dedicated') && searchCriteria.searchBy !=='by_pallet'"
+                    class="icon-size-14" data-name="Layer 1" id="daf2a9d0-ed1e-40c3-8dc2-534f350396d2" viewBox="0 0 16 16"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <style>
+                        .bf3de19e-df40-4e76-a7cd-2f9395b9693a {
+                          fill: #738593;
+                        }
+                      </style>
+                    </defs>
+                    <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="16 10 10 16 16 16 16 10">
+                    </polygon>
+                    <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="0 6 6 0 0 0 0 6">
+                    </polygon>
+                    <rect class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" height="21.261" transform="translate(-3.314 8) rotate(-45)" width="1.367"
+                      x="7.317" y="-2.63">
+                    </rect>
+                    <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="2 14 2 9 0 9 0 16 7 16 7 14 2 14">
+                    </polygon>
+                    <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="14 2 14 6 16 6 16 0 10 0 10 2 14 2">
+                    </polygon>
+                  </svg>
+                  <svg *ngIf="(searchCriteria.storageType === 'shared' || searchCriteria.storageType === 'dedicated') && searchCriteria.searchBy ==='by_pallet'"
+                    class="icon-size-14 mr-2" id="91048642-36e2-4f45-83ab-8ceede306ae3" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24">
+                    <defs>
+                      <style>
+                        .\37 e0e4eda-9161-4ec8-8239-38bcf2454e29 {
+                          fill: #abb6be;
+                        }
+                      </style>
+                    </defs>
+                    <title></title>
+                    <g id="c213bd94-fff4-4595-8851-249fa7716951" data-name="RMdIWM.tif">
+                      <path class="7e0e4eda-9161-4ec8-8239-38bcf2454e29" d="M.013,22.963V18.728c0-.572.02-1.145,0-1.716a21.784,21.784,0,0,1,.4-3.931c.374-2.717.772-5.431,1.161-8.145.185-1.3.373-2.591.561-3.9H21.855c.1.708.206,1.414.307,2.121q.544,3.81,1.09,7.62c.237,1.655.519,3.306.7,4.968a26.438,26.438,0,0,1,.025,2.774q0,2.058,0,4.117v.33H17.991V21.01H6.014v1.953Zm21.945-1.992V17.019H2.031V20.96H4.02V19.011H19.99v1.96Zm-5.037-5.987L16.049,3.04h-3.03V14.984Zm-5.95,0V3.037H7.941L7.069,14.986ZM18.05,3.032l.87,11.947h2.9c-.573-4-1.142-7.969-1.712-11.947ZM5.067,14.98,5.94,3.034H3.884L2.174,14.98Z"
+                      />
+                    </g>
+                  </svg>
+                </i>
+                <span class="lable">Booked Space</span>
+                <!---->
+                <h4 class="ml-4">{{wareHouse.bookedArea}} {{wareHouse.TotalCoveredAreaUnit}}</h4>
+                <!---->
+              </div>
+
+              <div *ngIf="wareHouse.storageType ==='full'">
+                <i class="icon mr-2">
+                  <svg class="icon-size-16" data-name="Layer 1" id="4a12fca4-e18c-475e-bd3e-22cd7e281a70" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <style>
+                        .\33 949e7c5-f605-4c5e-87a9-b12329243bbe {
+                          fill: #738593;
+                        }
+
+                        .\38 d48c0e3-bd07-43c0-8228-4127926f0f37 {
+                          fill: #fff;
+                        }
+                      </style>
+                    </defs>
+                    <g data-name="calendar2" id="8158930b-cef2-4edb-b5e1-ba3f6425e989">
+                      <path class="3949e7c5-f605-4c5e-87a9-b12329243bbe" d="M15,2H3.8A2.8,2.8,0,0,0,1,4.8V16H12.2A2.8,2.8,0,0,0,15,13.2V2Z" data-name="<Compound Path>"
+                        id="faf814a2-64c6-47f5-af64-79a811794184">
+                      </path>
+                      <path class="8d48c0e3-bd07-43c0-8228-4127926f0f37" d="M4,4h9a0,0,0,0,1,0,0v6a0,0,0,0,1,0,0H3a0,0,0,0,1,0,0V5A1,1,0,0,1,4,4Z">
+                      </path>
+                      <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5" id="2b57c6dd-e369-4754-b6e3-53be44a39248"
+                        width="2" x="5">
+                      </rect>
+                      <rect class="3949e7c5-f605-4c5e-87a9-b12329243bbe" data-name="<Path>" height="5" id="2f608205-02c1-4439-8b66-12ac37428e6c"
+                        width="2" x="9">
+                      </rect>
+                    </g>
+                  </svg>
+                </i>
+                <span class="lable">MINIMUM LEASE TERM</span>
+                <!---->
+                <h4 class="ml-4"> {{wareHouse.minimumLeaseTerm}}</h4>
+                <!---->
+              </div>
+              <div *ngIf="wareHouse.storageType ==='full'">
+                <!---->
+                <i class="icon mr-2">
+                  <svg class="icon-size-14" data-name="Layer 1" id="daf2a9d0-ed1e-40c3-8dc2-534f350396d2" viewBox="0 0 16 16"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <style>
+                        .bf3de19e-df40-4e76-a7cd-2f9395b9693a {
+                          fill: #738593;
+                        }
+                      </style>
+                    </defs>
+                    <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="16 10 10 16 16 16 16 10">
+                    </polygon>
+                    <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="0 6 6 0 0 0 0 6">
+                    </polygon>
+                    <rect class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" height="21.261" transform="translate(-3.314 8) rotate(-45)" width="1.367"
+                      x="7.317" y="-2.63">
+                    </rect>
+                    <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="2 14 2 9 0 9 0 16 7 16 7 14 2 14">
+                    </polygon>
+                    <polygon class="bf3de19e-df40-4e76-a7cd-2f9395b9693a" points="14 2 14 6 16 6 16 0 10 0 10 2 14 2">
+                    </polygon>
+                  </svg>
+                </i>
+                <span class="lable">APPROX SPACE REQUIRED</span>
+                <!---->
+                <h4 class="ml-4" [innerHTML]="wareHouse.spaceReqWarehouse"></h4>
+
+              </div>
+
+              <div>
+                <i class="icon mr-2">
+                  <svg class="icon-size-16" id="50bc1bd9-6260-46ce-abc5-3554b4ea74d1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24">
+                    <defs>
+                      <style>
+                        .\38 e809ae0-7b37-42e6-a85e-f361f1832f6d {
+                          fill: #fff;
+                        }
+
+                        .\31 c3de07a-0567-419f-859c-c2a6f340c18e {
+                          fill: #738593;
+                        }
+                      </style>
+                    </defs>
+                    <title>Icons</title>
+                    <g id="43a13e74-76be-4e7c-a77a-222e086eb1dd" data-name="warehouse">
+                      <g id="95598593-0b07-4049-99d8-9dde2c91ee8c" data-name="&lt;Group&gt;">
+                        <path id="543a1ef8-9d63-4e8e-a43c-e33c391bf8c7" data-name="&lt;Path&gt;" class="8e809ae0-7b37-42e6-a85e-f361f1832f6d" d="M22,23v-.555A3.959,3.959,0,0,1,20,23Z"
+                        />
+                        <path id="76a7b445-ba52-4a5d-a2dc-da158acee007" data-name="&lt;Path&gt;" class="8e809ae0-7b37-42e6-a85e-f361f1832f6d" d="M2,23H4a3.959,3.959,0,0,1-2-.555Z"
+                        />
+                      </g>
+                      <path id="e1fcf746-792d-4354-8bc6-17314b2a5e3d" data-name="&lt;Compound Path&gt;" class="1c3de07a-0567-419f-859c-c2a6f340c18e"
+                        d="M22.148,6.457,12,1,1.852,6.457A4,4,0,0,0,0,9.832V19a3.983,3.983,0,0,0,2,3.445V10H22V22.445A3.983,3.983,0,0,0,24,19V9.832A4,4,0,0,0,22.148,6.457ZM15,7H9V5h6Z"
+                      />
+                      <rect id="4f261f44-20ec-4ea9-90c5-9c79149c2390" data-name="&lt;Path&gt;" class="1c3de07a-0567-419f-859c-c2a6f340c18e" x="10"
+                        y="18" width="4" height="4" />
+                      <rect id="f420b0a4-076a-4ee1-91c5-b7e42da4e2e9" data-name="&lt;Path&gt;" class="1c3de07a-0567-419f-859c-c2a6f340c18e" x="5"
+                        y="18" width="4" height="4" />
+                      <rect id="8970c0b2-6fdc-4ebc-8cc6-3d4ad3f8c163" data-name="&lt;Path&gt;" class="1c3de07a-0567-419f-859c-c2a6f340c18e" x="5"
+                        y="12" width="4" height="4" />
+                      <rect id="7ba11457-86cf-4719-b707-7dd0b08eb954" data-name="&lt;Path&gt;" class="1c3de07a-0567-419f-859c-c2a6f340c18e" x="10"
+                        y="12" width="4" height="4" />
+                      <rect id="e6df87d8-dd93-41a6-9184-dc1ac2ad8c81" data-name="&lt;Path&gt;" class="1c3de07a-0567-419f-859c-c2a6f340c18e" x="15"
+                        y="18" width="4" height="4" />
+                    </g>
+                  </svg>
+                </i>
+                <span class="lable">WAREHOUSE TYPE</span>
+                <!---->
+                <h4 class="ml-4 text-capitalize"> {{wareHouse.storageType}}</h4>
+                <!---->
+              </div>
+
+            </div>
+            <hr class="hr-solid mb-4 mt-0" />
+            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-5 col-12">
+              <div *ngFor="let doc of wareHouse.parsedGallery; let i = index" (click)="openGallery(wareHouse.parsedGallery, i)">
+                <div class="gallery-section" *ngIf="i == 0">
+                  <div class="images-carousel">
+                    <img [src]="doc.thumb" *ngIf="doc.DocumentUploadedFileType != 'mp4'" alt="thumbnail" />
+                    <video class="animated fadeIn" controls *ngIf="doc.DocumentUploadedFileType == 'mp4'">
+                      <source [src]="doc.DocumentFile" type="video/mp4" />
+                    </video>
+                    <div class="box-content"></div>
+                    <div class="gallery-section-item d-flex justify-content-center align-items-center">
+                      <img src="../../../assets/images/icons/icon_pictures.svg" alt="count" class="icon-size-14 mr-1" /> {{ wareHouse.parsedGallery.length }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-1 col-xl-8 col-lg-8 col-md-7 col-sm-7 col-12 Wcontent">
+              <h4 class="card-title wareHouse mb-4">{{ wareHouse.WHName }}</h4>
+              <div class="warehousing-content">
+                <ul class="list-group">
+                  <li class="list-group-item mr-3">
+                    <img src="../../../assets/images/icons/Icons_Location-grey.svg" alt="icon" class="icon-size-16 mr-2" />
+                    <span>
+                      {{ wareHouse.Location}}
+                    </span>
+                  </li>
+                  <li class="list-group-item mr-4">
+                    <img *ngIf="(searchCriteria.storageType === 'shared' || searchCriteria.storageType === 'dedicated') && searchCriteria.searchBy !=='by_pallet'"
+                      src="../../../assets/images/icons/icon_grid.svg" alt="icon" class="icon-size-14 mr-2" />
+                    <svg *ngIf="(searchCriteria.storageType === 'shared' || searchCriteria.storageType === 'dedicated') && searchCriteria.searchBy ==='by_pallet'"
+                      class="icon-size-14 mr-2" id="91048642-36e2-4f45-83ab-8ceede306ae3" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24">
+                      <defs>
+                        <style>
+                          .\37 e0e4eda-9161-4ec8-8239-38bcf2454e29 {
+                            fill: #abb6be;
+                          }
+                        </style>
+                      </defs>
+                      <title></title>
+                      <g id="c213bd94-fff4-4595-8851-249fa7716951" data-name="RMdIWM.tif">
+                        <path class="7e0e4eda-9161-4ec8-8239-38bcf2454e29" d="M.013,22.963V18.728c0-.572.02-1.145,0-1.716a21.784,21.784,0,0,1,.4-3.931c.374-2.717.772-5.431,1.161-8.145.185-1.3.373-2.591.561-3.9H21.855c.1.708.206,1.414.307,2.121q.544,3.81,1.09,7.62c.237,1.655.519,3.306.7,4.968a26.438,26.438,0,0,1,.025,2.774q0,2.058,0,4.117v.33H17.991V21.01H6.014v1.953Zm21.945-1.992V17.019H2.031V20.96H4.02V19.011H19.99v1.96Zm-5.037-5.987L16.049,3.04h-3.03V14.984Zm-5.95,0V3.037H7.941L7.069,14.986ZM18.05,3.032l.87,11.947h2.9c-.573-4-1.142-7.969-1.712-11.947ZM5.067,14.98,5.94,3.034H3.884L2.174,14.98Z"
+                        />
+                      </g>
+                    </svg>
+                    {{ wareHouse.TotalCoveredArea }} {{ wareHouse.TotalCoveredAreaUnit }}
+                    <!-- <sup>2</sup> -->
+                  </li>
+                </ul>
+                <p class="warehousing-desc mb-1">
+                  {{ wareHouse.WHDesc | limitTo : 135 }}
+                </p>
+                <div class="warehouse-features d-flex">
+                  <div class="icons" *ngFor="let facilities of wareHouse.FacilitiesProviding">
+                    <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Bonded Warehouse" *ngIf="facilities.BusinessLogic == 'IsBondedWarehouse'"
+                      [ngClass]="{
+                              'warehouse-features-active':
+                                facilities.BusinessLogic == 'IsBondedWarehouse' &&
+                                facilities.IsAllowed
+                            }">
+                      <img src="../../../assets/images/icons/Icons_Warehousing_green.svg" alt="footer icon" class="hvr-icon" />
+                    </span>
+                    <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Temp. Controlled" *ngIf="
+                              facilities.BusinessLogic == 'IsTempratureControlled'
+                            " [ngClass]="{
+                              'warehouse-features-active':
+                                facilities.BusinessLogic ==
+                                  'IsTempratureControlled' && facilities.IsAllowed
+                            }">
+                      <img src="../../../assets/images/icons/Weight-Icon_1.svg" alt="footer icon" class="hvr-icon" />
+                    </span>
+                    <span class="hvr-icon-pulse-shrink footer-link" placement="top" ngbTooltip="Transport Available" *ngIf="facilities.BusinessLogic == 'IsTransportAvailable'"
+                      [ngClass]="{
+                              'warehouse-features-active':
+                                facilities.BusinessLogic == 'IsTransportAvailable' &&
+                                facilities.IsAllowed
+                            }">
+                      <img src="../../../assets/images/icons/Icons_Cargo_Truck_blue.svg" alt="footer icon" class="hvr-icon" />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card grey-background schedule" *ngIf="showScheduler && bookingDetails.ContainerLoad === 'LCL'">
+        <div class="card-body">
+          <div class="card-title mb-3">
+            <h5>
+              <img class="icon-size-16 mr-2" src="../../../../../assets/images/icons/Icons_Calendar.svg">SCHEDULE YOUR CARGO
+            </h5>
+          </div>
+          <div class="row pl-4 pr-4">
+            <div class="col-6">
+              <div class="form-group">
+                <label>SHIPPING LINE</label>
+                <div class="shippingline-container" *ngIf="selectedShipping && selectedShipping.carrierImage">
+                  <img src="{{getShippingLineImage(selectedShipping.carrierImage)}}" alt="">
+                </div>
+                <input type="text" class="form-control" [ngClass]="selectedShipping && selectedShipping.carrierImage ? 'pl-5' : ''" placeholder="e.g: Maersk Shipping"
+                  [(ngModel)]="selectedShipping" [ngbTypeahead]="shippings" [resultTemplate]="st" [inputFormatter]="formatter">
+                <ng-template #st let-r="result">
+                  <div class="d-inline-block icon-size-16 mr-2">
+                    <img src="{{getShippingLineImage(r.carrierImage)}}" width="16px" height="16px">
+                  </div>
+                  <ngb-highlight [result]="r.carrierName"></ngb-highlight>
+                </ng-template>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group date-control">
+                <label>DEPARTURE DATE</label>
+                <div class="dateIcon">
+                  <input autocomplete="off" class="form-control" placeholder="Departure Date" name="dp" [(ngModel)]="departureDate" ngbDatepicker
+                    [dayTemplate]="t" [autoClose]="false" placement="bottom-right" [outsideDays]="true" [navigation]="false"
+                    [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate" #dp="ngbDatepicker" (click)="dp.toggle()" />
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-primary hvr-sweep-to-right mt-2 pl-4 pr-4" [disabled]="!selectedShipping || !departureDate" (click)="viewSchedule()">VIEW SCHEDULE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- document required -->
+      <!-- document required -->
+      <h4 *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'" class=" view-booking-shipment-detail-heading">Shipping Information For
+        <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.origin | lowercase) + '.svg'}}" class="ml-2 mr-2"
+          width="20"> {{bookingDetails.PolName}}, {{bookingDetails.PolCountry}}</h4>
+      <div *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'" class="row view-booking-document">
+        <div class="col-12">
+          <div class="card mb-0">
+            <div class="card-body">
+              <div class="card-title mt-3">
+                <h5>
+                  <img class="icon-size-16 mr-2" src="../../../../../assets/images/icons/icon_upload.svg">Upload Documents
+                </h5>
+                <hr />
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <a href="javascript:;" class="doc-title" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocOrigin && invoiceDocOrigin.DocumentFileName}">
+                    Commercial Inovice
+                    <label class="sub-text d-flex" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName">Uploaded on {{invoiceDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDocOrigin.DocumentUploadDate
+                      | date : "H:mm"}} GMT</label>
+                  </a>
+                  <div class="d-flex align-items-center upload-documents">
+                    <span class="badge badge-success" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
+                      APPROVED
+                    </span>
+                    <button class="btn disable" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable && invoiceDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && invoiceDocOrigin.DocumentLastStatus.toLowerCase() !== 'approved'"
+                      (click)="reuploadDoc(invoiceDocOrigin)">Reject</button>
+                    <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName && invoiceDocOrigin.IsUploadable && (invoiceDocOrigin.DocumentLastStatus.toLowerCase() != 'approved' && invoiceDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
+                      (click)="approvedDoc(invoiceDocOrigin)">Approve</button>
+                    <span class="badge hashmove-badge-warning" *ngIf="invoiceDocOrigin && !invoiceDocOrigin.DocumentFileName">
+                      AWAITING FROM CUSTOMER
+                    </span>
+                    <span class="badge hashmove-badge-danger" *ngIf="invoiceDocOrigin && invoiceDocOrigin.DocumentFileName &&  invoiceDocOrigin.DocumentLastStatus.toLowerCase() == 're-upload'">
+                      REJECTED </span>
+                    <button
+                      [disabled]="bookingDetails.BookingStatus.toLowerCase() === 'cancelled'"
+                     class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="invoiceDocOrigin && (!invoiceDocOrigin.DocumentFileName || invoiceDocOrigin.DocumentLastStatus.toLowerCase() !== 'approved')"
+                      (click)="uploadDoc(invoiceDocOrigin)" [hidden]="false">{{(invoiceDocOrigin?.DocumentID > 0)?'Re-upload':'Upload'}}
+                    </button>
+                  </div>
+
+                </li>
+                <li class="list-group-item">
+                  <a href="javascript:;" class="doc-title" (click)="downloadDoc(packingListDocOrigin, $event)" [ngClass]="{'primary-text': packingListDocOrigin && packingListDocOrigin.DocumentFileName}">
+                    Packing List
+                    <label class="sub-text d-flex" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName">Uploaded on {{packingListDocOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDocOrigin.DocumentUploadDate
+                      | date : "H:mm"}} GMT</label>
+                  </a>
+                  <div class="d-flex align-items-center upload-documents">
+                    <span class="badge badge-success" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
+                      APPROVED
+                    </span>
+                    <button class="btn disable" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
+                      (click)="reuploadDoc(packingListDocOrigin)">Reject</button>
+                    <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName && packingListDocOrigin.IsUploadable && (packingListDocOrigin.DocumentLastStatus.toLowerCase() != 'approved' && packingListDocOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
+                      (click)="approvedDoc(packingListDocOrigin)">Approve</button>
+                    <span class="badge hashmove-badge-warning" *ngIf="packingListDocOrigin && !packingListDocOrigin.DocumentFileName">
+                      AWAITING FROM CUSTOMER
+                    </span>
+                    <span class="badge hashmove-badge-danger" *ngIf="packingListDocOrigin && packingListDocOrigin.DocumentFileName &&  packingListDocOrigin.DocumentLastStatus.toLowerCase() == 're-upload'">
+                      REJECTED </span>
+                    <button
+                      [disabled]="bookingDetails.BookingStatus.toLowerCase() === 'cancelled'"
+                      class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="packingListDocOrigin && (!packingListDocOrigin.DocumentFileName || packingListDocOrigin.DocumentLastStatus.toLowerCase() !== 'approved')"
+                      (click)="uploadDoc(packingListDocOrigin)" [hidden]="false">{{(packingListDocOrigin?.DocumentID > 0)?'Re-upload':'Upload'}}
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="card mb-0 grey-background" [hidden]="false" *ngIf="bookingDetails.JsonShippingOrgInfo">
+            <div class="card-body d-flex flex-column">
+              <div class="card-title mb-4 mt-3">
+                <h5>
+                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16"> Supplier Information
+                </h5>
+              </div>
+              <div class="row">
+                <div class="col-8 ml-4 contact">
+                  <h4 class="contact-name">{{bookingDetails.JsonShippingOrgInfo.Name}}</h4>
+                  <div class="contact-address d-flex mb-2">
+                    <img src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon" class="icon-size-16 mt-1">
+                    <span class="ml-2">{{bookingDetails.JsonShippingOrgInfo.Address}}</span>
+                  </div>
+                  <div class="contact-info d-flex justify-content-between">
+                    <span>
+                      <img src="../../../../assets/images/icons/mob-icon.svg" class="icon-size-16">
+                      <span class="ml-2">{{bookingDetails.JsonShippingOrgInfo.PhoneCountryCode}}{{bookingDetails.JsonShippingOrgInfo.PhoneNumber}}</span>
+                    </span>
+                    <span>
+                      <img src="../../../../assets/images/icons/icon_email.svg" class="icon-size-16">
+                      <span class="ml-2">{{bookingDetails.JsonShippingOrgInfo.Email}}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card grey-background">
+            <div class="card-body">
+              <div class="card-title mb-4 mt-3 d-flex justify-content-between align-items-center">
+                <h5 (click)="toggleInfoSection('origin')" class="pointer prevent-text-select">
+                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16"> Agent Information
+                  <i class="fa fa-caret-down" [ngClass]="originToggleClass">
+                  </i>
+                </h5>
+                <span class="edit-info pointer" *ngIf="editAgentorgToggler" (click)="setAgentOrgInfo()">
+                  <img src="../../../../../assets/images/icons/warehouse-edit-icon.svg" class="icon-size-16 mr-1" alt="edit">
+                </span>
+              </div>
+              <div *ngIf="originToggle">
+                <div class="row" *ngIf="editAgentorgToggler">
+                  <div class="contact ml-4" [ngClass]="editAgentorgToggler ? 'col-8': 'col-8'">
+                    <h4 class="contact-name">{{bookingDetails.JsonAgentOrgInfo.Name}}</h4>
+                    <div class="contact-address d-flex mb-2" [ngClass]="readMoreClass2 ? 'readMore animated fadeIn' : 'unread'">
+                      <img src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon" class="icon-size-16 mt-1">
+                      <span class="ml-2">{{bookingDetails.JsonAgentOrgInfo.Address}}</span>
+                    </div>
+                    <a href="javascript:;" class="hvr-icon-forward mb-3" (click)="readMore2()" *ngIf="bookingDetails.JsonAgentOrgInfo.Address.length > 250">
+                      <span class="link-hover-secondary">{{vendorAboutBtn2}}</span>
+                      <i class="fa fa-angle-right hvr-icon"></i>
+                    </a>
+                    <div class="contact-info d-flex justify-content-between">
+                      <span class="mr-3">
+                        <img src="../../../../assets/images/icons/mob-icon.svg" class="icon-size-16">
+                        <span class="ml-2">{{bookingDetails.JsonAgentOrgInfo.PhoneCountryCode}}{{bookingDetails.JsonAgentOrgInfo.PhoneNumber}}</span>
+                      </span>
+                      <span>
+                        <img src="../../../../assets/images/icons/icon_email.svg" class="icon-size-16">
+                        <span class="ml-2">{{bookingDetails.JsonAgentOrgInfo.Email}}</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <form autocomplete="off" novalidate [formGroup]="AgentInfoFormOrigin" *ngIf="!editAgentorgToggler" (ngSubmit)="updateAgentInfoOrig()">
+                  <div class="row">
+                    <div class="offset-xl-1 offset-lg-0 col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-12 text-xl-right text-lg-left">
+                      <div class="form-group">
+                        <label>Name</label>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                      <div class="form-group">
+                        <input type="text" class="form-control" formControlName="name" [ngClass]="(sup_origin_name_error)? 'inputError': ''" (focusout)="errorMessages('origin')"
+                          (focus)="sup_origin_name_error=false" (keypress)="textValidation($event)" />
+                        <span class="animated fadeIn" *ngIf="sup_origin_name_error">
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormOrigin.controls['name'].hasError('required') && (AgentInfoFormOrigin.controls.name.dirty || AgentInfoFormOrigin.controls.name.touched)">
+                            This field is required!</p>
+                          <p class="inputError animated fadeIn" *ngIf="!AgentInfoFormOrigin.controls['name'].hasError('pattern') && AgentInfoFormOrigin.controls['name'].hasError('minlength') && (AgentInfoFormOrigin.controls.name.dirty || AgentInfoFormOrigin.controls.name.touched)">
+                            Name must be at least 2 characters long</p>
+                          <p class="inputError animated fadeIn" *ngIf="!AgentInfoFormOrigin.controls['name'].hasError('pattern') && AgentInfoFormOrigin.controls['name'].hasError('maxlength') && (AgentInfoFormOrigin.controls.name.dirty || AgentInfoFormOrigin.controls.name.touched)">
+                            Name should not exceed from 50 characters</p>
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormOrigin.controls['name'].hasError('pattern') && (AgentInfoFormOrigin.controls.name.dirty || AgentInfoFormOrigin.controls.name.touched)">
+                            Please enter valid information</p>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="offset-xl-1 offset-lg-0 col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-12 text-xl-right text-lg-left">
+                      <div class="form-group">
+                        <label>Address</label>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                      <div class="form-group">
+                        <textarea class="form-control" formControlName="address" maxlength="500" [ngClass]="(sup_origin_address_error)? 'inputError': ''"
+                          (focusout)="errorMessages('origin')" (focus)="sup_origin_address_error=false"></textarea>
+                        <span class="animated fadeIn" *ngIf="sup_origin_address_error">
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormOrigin.controls['address'].hasError('required') && (AgentInfoFormOrigin.controls.address.dirty || AgentInfoFormOrigin.controls.address.touched)">
+                            This field is required!</p>
+                          <p class="inputError animated fadeIn" *ngIf="!AgentInfoFormOrigin.controls['address'].hasError('pattern') && AgentInfoFormOrigin.controls['address'].hasError('minlength') && (AgentInfoFormOrigin.controls.address.dirty || AgentInfoFormOrigin.controls.address.touched)">
+                            address must be at least 10 characters long</p>
+                          <p class="inputError animated fadeIn" *ngIf="!AgentInfoFormOrigin.controls['address'].hasError('pattern') && AgentInfoFormOrigin.controls['address'].hasError('maxlength') && (AgentInfoFormOrigin.controls.address.dirty || AgentInfoFormOrigin.controls.address.touched)">
+                            Name should not exceed from 250 characters</p>
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormOrigin.controls['address'].hasError('pattern') && (AgentInfoFormOrigin.controls.address.dirty || AgentInfoFormOrigin.controls.address.touched)">
+                            Please enter valid information</p>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="offset-xl-1 offset-lg-0 col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-12 text-xl-right text-lg-left">
+                      <div class="form-group">
+                        <label>Contact</label>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                      <div class="form-group select-number">
+                        <div class="input-group" [ngClass]="(sup_origin_contact_error)? 'inputError': ''">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <div ngbDropdown class="contanct-dropdown p-2">
+                                <div class="pointer phone d-flex align-items-center" id="phoneCode" ngbDropdownToggle style="max-height: 28rem;">
+                                  <div class="d-flex mr-1" style="width:16px; height:12px">
+                                    <img *ngIf="agentFlagImgOrg" [src]="'../../../../../assets/images/flags/4x3/' + (agentFlagImgOrg | lowercase) + '.svg'" alt="flags"
+                                      class="img-responsive" style="max-width:100%; max-height:100%; border: 1px solid #3f5165;">
+                                  </div>
+                                  <span>{{agentOrgphoneCode}}</span>
+                                </div>
+                                <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                                  <ng-scrollbar [trackX]="false" style="margin-bottom: 0rem; min-height: 200px;">
+                                    <ul class="list-group m-0">
+                                      <li class="list-group-item d-flex justify-content-start" *ngFor="let list of countryList" (click)="selectPhoneCode(list,'origin')">
+                                        <div class="d-flex mr-2" style="width:16px; height:12px; margin-top: 2px;">
+                                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flags'}}"
+                                            style="max-width:100%; max-height:100%;">
+                                        </div>
+                                        <span style="line-height: 1;"> {{list.desc[0].CountryPhoneCode}}</span>
+                                      </li>
+                                    </ul>
+                                  </ng-scrollbar>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control control-phone p-1" maxlength="13" placeholder="123456789" formControlName="contact"
+                            (keypress)="NumberValid($event)" (focusout)="errorMessages('origin')" (focus)="sup_origin_contact_error=false"
+                          />
+                        </div>
+                        <span class="animated fadeIn" *ngIf="sup_origin_contact_error">
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormOrigin.controls['contact'].hasError('required') && (AgentInfoFormOrigin.controls.contact.dirty || AgentInfoFormOrigin.controls.contact.touched)">
+                            This field is required!</p>
+                          <p class="inputError animated fadeIn" *ngIf="!AgentInfoFormOrigin.controls['contact'].hasError('pattern') && AgentInfoFormOrigin.controls['contact'].hasError('minlength') && (AgentInfoFormOrigin.controls.contact.dirty || AgentInfoFormOrigin.controls.contact.touched)">
+                            Phone number should be minimum 7 digits</p>
+                          <p class="inputError animated fadeIn" *ngIf="!AgentInfoFormOrigin.controls['contact'].hasError('pattern') && AgentInfoFormOrigin.controls['contact'].hasError('maxlength') && (AgentInfoFormOrigin.controls.contact.dirty || AgentInfoFormOrigin.controls.contact.touched)">
+                            Phone number should not exceed from 12 digits</p>
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormOrigin.controls['contact'].hasError('pattern') && (AgentInfoFormOrigin.controls.contact.dirty || AgentInfoFormOrigin.controls.contact.touched)">
+                            Please enter valid information</p>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="offset-xl-1 offset-lg-0 col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-12 text-xl-right text-lg-left">
+                      <div class="form-group">
+                        <label>Email</label>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                      <div class="form-group">
+                        <input class="form-control" placeholder="abc@email.com" type="email" formControlName="email" [ngClass]="(sup_origin_email_error)? 'inputError': ''"
+                          (focusout)="errorMessages('origin')" (focus)="sup_origin_email_error=false" />
+                        <span class="animated fadeIn" *ngIf="sup_origin_email_error">
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormOrigin.controls['email'].hasError('required') && (AgentInfoFormOrigin.controls.email.dirty || AgentInfoFormOrigin.controls.email.touched)">
+                            This field is required!</p>
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormOrigin.controls['email'].hasError('pattern') && (AgentInfoFormOrigin.controls.email.dirty || AgentInfoFormOrigin.controls.email.touched)">
+                            Please enter valid information</p>
+                        </span>
+                      </div>
+                      <div class="row mt-2 pl-5 pr-3">
+                        <button class="col btn btn-outline-primary hvr-sweep-to-right" type="button" (click)="resetForm('origin')">Reset</button>
+                        <button [disabled]="AgentInfoFormOrigin.invalid" type="submit" class="col btn btn-primary hvr-sweep-to-right ml-3" (click)="updateAgentInfoOrig()">Confirm</button>
+                      </div>
+                      <!-- <button [disabled]="AgentInfoFormOrigin.invalid"
+                        class="btn btn-outline-primary hvr-sweep-to-right pull-right mt-4 pl-5 pr-5"
+                        (click)="updateAgentInfoOrig()">Confirm</button> -->
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+
+      <h4 *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'" class=" view-booking-shipment-detail-heading">Shipping Information For
+        <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.destination | lowercase) + '.svg'}}"
+          class="ml-2 mr-2" width="20"> {{bookingDetails.PodName}}, {{bookingDetails.PodCountry}}</h4>
+      <div *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'" class="row view-booking-document">
+        <div class="col-12">
+          <div class="card mb-0">
+            <div class="card-body">
+              <div class="card-title mt-3">
+                <h5>
+                  <img class="icon-size-16 mr-2" src="../../../../../assets/images/icons/icon_upload.svg">Upload Documents
+                </h5>
+                <hr />
+              </div>
+              <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item">
+                  <a href="javascript:;" class="doc-title" (click)="downloadDoc(invoiceDocOrigin, $event)" [ngClass]="{'primary-text': invoiceDocDestination && invoiceDocDestination.DocumentFileName}">
+                    Commercial Inovice
+                    <label class="sub-text d-flex" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName">Uploaded on {{invoiceDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}} {{invoiceDocDestination.DocumentUploadDate
+                      | date : "H:mm"}} GMT</label>
+                  </a>
+                  <div class="d-flex align-items-center upload-documents">
+                    <button class="btn disable" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 're-upload' && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved'"
+                      (click)="reuploadDoc(invoiceDocDestination)">Reject</button>
+                    <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.IsUploadable && (invoiceDocDestination.DocumentLastStatus.toLowerCase() != 'approved' && invoiceDocDestination.DocumentLastStatus.toLowerCase() != 're-upload')"
+                      (click)="approvedDoc(invoiceDocDestination)">Approve</button>
+                    <span class="badge hashmove-badge-warning" *ngIf="invoiceDocDestination && !invoiceDocDestination.DocumentFileName">
+                      AWAITING FROM CUSTOMER
+                    </span>
+                    <span class="badge badge-success" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName && invoiceDocDestination.DocumentLastStatus.toLowerCase() == 'approved'">
+                      APPROVED
+                    </span>
+                    <span class="badge hashmove-badge-danger" *ngIf="invoiceDocDestination && invoiceDocDestination.DocumentFileName &&  invoiceDocDestination.DocumentLastStatus.toLowerCase() == 're-upload'">
+                      REJECTED </span>
+                    <!-- <button class="btn btn-outline-primary hvr-sweep-to-right ml-2"
+                          *ngIf="invoiceDocDestination && (!invoiceDocDestination.DocumentFileName || invoiceDocDestination.DocumentLastStatus.toLowerCase() !== 'approved')"
+                            (click)="uploadDoc(invoiceDocDestination)" [hidden]="false" >{{(invoiceDocDestination?.DocumentID > 0)?'Re-upload':'Upload'}}
+                          </button> -->
+                  </div>
+
+                </li>
+                <li class="list-group-item">
+                  <a href="javascript:;" class="doc-title" (click)="downloadDoc(packingListDocOrigin, $event)" [ngClass]="{'primary-text': packingListDocDestination && packingListDocDestination.DocumentFileName}">
+                    Packing List
+                    <label class="sub-text d-flex" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName">Uploaded on {{packingListDocDestination.DocumentUploadDate | date : "d MMM, yyyy"}} {{packingListDocDestination.DocumentUploadDate
+                      | date : "H:mm"}} GMT</label>
+                  </a>
+                  <div class="d-flex align-items-center upload-documents">
+                    <span class="badge hashmove-badge-warning" *ngIf="packingListDocDestination && !packingListDocDestination.DocumentFileName">
+                      AWAITING FROM CUSTOMER
+                    </span>
+                    <span class="badge badge-success" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.DocumentLastStatus.toLowerCase() == 'approved'">
+                      APPROVED
+                    </span>
+                    <span class="badge hashmove-badge-danger" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName &&  packingListDocDestination.DocumentLastStatus.toLowerCase() == 're-upload'">
+                      REJECTED </span>
+                    <button class="btn disable" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable && packingListDocDestination.DocumentLastStatus.toLowerCase() != 're-upload' && packingListDocDestination.DocumentLastStatus.toLowerCase() != 'approved'"
+                      (click)="reuploadDoc(packingListDocDestination)">Reject</button>
+                    <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="packingListDocDestination && packingListDocDestination.DocumentFileName && packingListDocDestination.IsUploadable && (packingListDocDestination.DocumentLastStatus.toLowerCase() != 'approved' && packingListDocDestination.DocumentLastStatus.toLowerCase() != 're-upload')"
+                      (click)="approvedDoc(packingListDocDestination)">Approve</button>
+                    <!-- <button class="btn btn-outline-primary hvr-sweep-to-right ml-2"
+                            *ngIf="packingListDocDestination && (!packingListDocDestination.DocumentFileName || packingListDocDestination.DocumentLastStatus.toLowerCase() !== 'approved')"
+                            (click)="uploadDoc(packingListDocDestination)" [hidden]="false" >{{(packingListDocDestination?.DocumentID > 0)?'Re-upload':'Upload'}}
+                          </button> -->
+                  </div>
+
+                </li>
+                <li class="list-group-item">
+                  <a href="javascript:;" (click)="downloadDoc(ladingBill, $event)" [ngClass]="{'primary-text': ladingBill && ladingBill.DocumentFileName}"
+                    class="doc-title">
+                    Bill of Lading
+                    <label class="sub-text d-flex" *ngIf="ladingBill && ladingBill.DocumentFileName">Uploaded on {{ladingBill.DocumentUploadDate | date : "d MMM, yyyy"}} {{ladingBill.DocumentUploadDate
+                      | date : "H:mm"}} GMT</label>
+                  </a>
+                  <div class="d-flex align-items-center upload-documents">
+                    <span class="badge hashmove-badge-warning" *ngIf="ladingBill && !ladingBill.DocumentFileName">
+                      AWAITING FROM CUSTOMER
+                    </span>
+                    <span class="badge badge-success" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.DocumentLastStatus.toLowerCase() == 'approved'">
+                      APPROVED
+                    </span>
+                    <span class="badge hashmove-badge-danger" *ngIf="ladingBill && ladingBill.DocumentFileName &&  ladingBill.DocumentLastStatus.toLowerCase() == 're-upload'">
+                      REJECTED </span>
+                    <button class="btn disable" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable && ladingBill.DocumentLastStatus.toLowerCase() != 're-upload' && ladingBill.DocumentLastStatus.toLowerCase() != 'approved'"
+                      (click)="reuploadDoc(ladingBill)">Reject</button>
+                    <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="ladingBill && ladingBill.DocumentFileName && ladingBill.IsUploadable && (ladingBill.DocumentLastStatus.toLowerCase() != 'approved' && ladingBill.DocumentLastStatus.toLowerCase() != 're-upload')"
+                      (click)="approvedDoc(ladingBill)">Approve</button>
+                    <button
+                      [disabled]="bookingDetails.BookingStatus.toLowerCase() === 'cancelled'"
+                      class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="ladingBill && (!ladingBill.DocumentFileName || ladingBill.DocumentLastStatus.toLowerCase() !== 'approved')"
+                      (click)="uploadDoc(ladingBill)" [hidden]="false">{{(ladingBill?.DocumentID > 0)?'Re-upload':'Upload'}}
+                    </button>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <a (click)="downloadDoc(certOrigin, $event)" href="javascript:;" class="doc-title" [ngClass]="{'primary-text': certOrigin && certOrigin.DocumentFileName}">
+                    Certificate of Origin
+                    <label class="sub-text d-flex" *ngIf="certOrigin && certOrigin.DocumentFileName">Uploaded on {{certOrigin.DocumentUploadDate | date : "d MMM, yyyy"}} {{certOrigin.DocumentUploadDate
+                      | date : "H:mm"}} GMT</label>
+                  </a>
+                  <div class="d-flex align-items-center upload-documents">
+                    <button class="btn disable" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && certOrigin.DocumentLastStatus.toLowerCase() != 're-upload' && certOrigin.DocumentLastStatus.toLowerCase() != 'approved'"
+                      (click)="reuploadDoc(certOrigin)">Reject</button>
+                    <button class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.IsUploadable && (certOrigin.DocumentLastStatus.toLowerCase() != 'approved' &&  certOrigin.DocumentLastStatus.toLowerCase() != 're-upload')"
+                      (click)="approvedDoc(certOrigin)">Approve</button>
+                    <span class="badge hashmove-badge-warning" *ngIf="certOrigin && !certOrigin.DocumentFileName">
+                      AWAITING FROM CUSTOMER
+                    </span>
+                    <span class="badge badge-success" *ngIf="certOrigin && certOrigin.DocumentFileName && certOrigin.DocumentLastStatus.toLowerCase() == 'approved'">
+                      APPROVED
+                    </span>
+                    <span class="badge hashmove-badge-danger" *ngIf="certOrigin && certOrigin.DocumentFileName &&  certOrigin.DocumentLastStatus.toLowerCase() == 're-upload'">
+                      REJECTED </span>
+                    <button
+                      [disabled]="bookingDetails.BookingStatus.toLowerCase() === 'cancelled'"
+                      class="btn btn-outline-primary hvr-sweep-to-right ml-2" *ngIf="certOrigin && (!certOrigin.DocumentFileName || certOrigin.DocumentLastStatus.toLowerCase() !== 'approved')"
+                      (click)="uploadDoc(certOrigin)" [hidden]="false">{{(certOrigin?.DocumentID > 0)?'Re-upload':'Upload'}}
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="card mb-0 grey-background" [hidden]="false" *ngIf="bookingDetails.JsonShippingDestInfo">
+            <div class="card-body d-flex flex-column">
+              <div class="card-title mb-4 mt-3">
+                <h5>
+                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16"> Supplier Information
+                </h5>
+              </div>
+              <div class="row">
+                <div class="col-8 ml-4 contact">
+                  <h4 class="contact-name">{{bookingDetails.JsonShippingDestInfo.Name}}</h4>
+                  <div class="contact-address d-flex mb-2">
+                    <img src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon" class="icon-size-16 mt-1">
+                    <span class="ml-2">{{bookingDetails.JsonShippingDestInfo.Address}}</span>
+                  </div>
+                  <div class="contact-info d-flex justify-content-between">
+                    <span>
+                      <img src="../../../../assets/images/icons/mob-icon.svg" class="icon-size-16">
+                      <span class="ml-2">{{bookingDetails.JsonShippingDestInfo.PhoneCountryCode}}{{bookingDetails.JsonShippingDestInfo.PhoneNumber}}</span>
+                    </span>
+                    <span>
+                      <img src="../../../../assets/images/icons/icon_email.svg" class="icon-size-16">
+                      <span class="ml-2">{{bookingDetails.JsonShippingDestInfo.Email}}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card grey-background">
+            <div class="card-body">
+              <div class="card-title mb-4 mt-3 d-flex justify-content-between align-items-center">
+                <h5 (click)="toggleInfoSection('destin')" class="pointer prevent-text-select">
+                  <img src="../../../../../assets/images/icons/icon_info.svg" class="icon-size-16"> Agent Information
+                  <i class="fa fa-caret-down" [ngClass]="destinToggleClass">
+                  </i>
+                </h5>
+                <span class="edit-info pointer" *ngIf="editAgentDestToggler" (click)="setAgentDestInfo()">
+                  <img src="../../../../../assets/images/icons/warehouse-edit-icon.svg" class="icon-size-16 mr-1" alt="edit">
+                </span>
+              </div>
+              <div *ngIf="destinToggle">
+                <div class="row" *ngIf="editAgentDestToggler">
+                  <div class="contact ml-4" [ngClass]="editAgentDestToggler ? 'col-8': 'col-8'">
+                    <h4 class="contact-name">{{bookingDetails.JsonAgentDestInfo.Name}}</h4>
+                    <div class="contact-address d-flex mb-2" [ngClass]="readMoreClass ? 'readMore animated fadeIn' : 'unread'">
+                      <img src="../../../../../assets/images/icons/Icons_Location.svg" alt="icon" class="icon-size-16 mt-1">
+                      <span class="ml-2">{{bookingDetails.JsonAgentDestInfo.Address}}</span>
+                    </div>
+                    <a href="javascript:;" class="hvr-icon-forward mb-3" (click)="readMore()" *ngIf="bookingDetails.JsonAgentDestInfo.Address.length > 250">
+                      <span class="link-hover-secondary">{{vendorAboutBtn}}</span>
+                      <i class="fa fa-angle-right hvr-icon"></i>
+                    </a>
+                    <div class="contact-info d-flex justify-content-between">
+                      <span class="mr-3">
+                        <img src="../../../../assets/images/icons/mob-icon.svg" class="icon-size-16">
+                        <span class="ml-2">{{bookingDetails.JsonAgentDestInfo.PhoneCountryCode}}{{bookingDetails.JsonAgentDestInfo.PhoneNumber}}</span>
+                      </span>
+                      <span>
+                        <img src="../../../../assets/images/icons/icon_email.svg" class="icon-size-16">
+                        <span class="ml-2">{{bookingDetails.JsonAgentDestInfo.Email}}</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <form autocomplete="off" novalidate [formGroup]="AgentInfoFormDest" *ngIf="!editAgentDestToggler" (ngSubmit)="updateAgentInfoDest()">
+                  <div class="row">
+                    <div class="offset-xl-1 offset-lg-0 col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-12 text-xl-right text-lg-left">
+                      <div class="form-group">
+                        <label>Name</label>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                      <div class="form-group">
+                        <input type="text" class="form-control" formControlName="name" [ngClass]="(sup_dest_name_error)? 'inputError': ''" (focusout)="errorMessages('dest')"
+                          (focus)="sup_dest_name_error=false" (keypress)="textValidation($event)" />
+                        <span class="animated fadeIn" *ngIf="sup_dest_name_error">
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormDest.controls['name'].hasError('required') && (AgentInfoFormDest.controls.name.dirty || AgentInfoFormDest.controls.name.touched)">
+                            This field is required!</p>
+                          <p class="inputError animated fadeIn" *ngIf="!AgentInfoFormDest.controls['name'].hasError('pattern') && AgentInfoFormDest.controls['name'].hasError('minlength') && (AgentInfoFormDest.controls.name.dirty || AgentInfoFormDest.controls.name.touched)">
+                            Name must be at least 2 characters long</p>
+                          <p class="inputError animated fadeIn" *ngIf="!AgentInfoFormDest.controls['name'].hasError('pattern') && AgentInfoFormDest.controls['name'].hasError('maxlength') && (AgentInfoFormDest.controls.name.dirty || AgentInfoFormDest.controls.name.touched)">
+                            Name should not exceed from 50 characters</p>
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormDest.controls['name'].hasError('pattern') && (AgentInfoFormDest.controls.name.dirty || AgentInfoFormDest.controls.name.touched)">
+                            Please enter valid information</p>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="offset-xl-1 offset-lg-0 col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-12 text-xl-right text-lg-left">
+                      <div class="form-group">
+                        <label>Address</label>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                      <div class="form-group">
+                        <textarea class="form-control" formControlName="address" maxlength="500" [ngClass]="(sup_dest_address_error)? 'inputError': ''"
+                          (focusout)="errorMessages('dest')" (focus)="sup_dest_address_error=false"></textarea>
+                        <span class="animated fadeIn" *ngIf="sup_dest_address_error">
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormDest.controls['address'].hasError('required') && (AgentInfoFormDest.controls.address.dirty || AgentInfoFormDest.controls.address.touched)">
+                            This field is required!</p>
+                          <p class="inputError animated fadeIn" *ngIf="!AgentInfoFormDest.controls['address'].hasError('pattern') && AgentInfoFormDest.controls['address'].hasError('minlength') && (AgentInfoFormDest.controls.address.dirty || AgentInfoFormDest.controls.address.touched)">
+                            address must be at least 10 characters long</p>
+                          <p class="inputError animated fadeIn" *ngIf="!AgentInfoFormDest.controls['address'].hasError('pattern') && AgentInfoFormDest.controls['address'].hasError('maxlength') && (AgentInfoFormDest.controls.address.dirty || AgentInfoFormDest.controls.address.touched)">
+                            Name should not exceed from 250 characters</p>
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormDest.controls['address'].hasError('pattern') && (AgentInfoFormDest.controls.address.dirty || AgentInfoFormDest.controls.address.touched)">
+                            Please enter valid information</p>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="offset-xl-1 offset-lg-0 col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-12 text-xl-right text-lg-left">
+                      <div class="form-group">
+                        <label>Contact</label>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                      <div class="form-group select-number">
+                        <div class="input-group" [ngClass]="(sup_dest_contact_error)? 'inputError': ''">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <div ngbDropdown class="contanct-dropdown p-2">
+                                <div class="pointer phone d-flex align-items-center" id="phoneCode" ngbDropdownToggle style="max-height: 28rem;">
+                                  <div class="d-flex mr-1" style="width:16px; height:12px">
+                                    <img *ngIf="agentFlagImgDest" [src]="'../../../../../assets/images/flags/4x3/' + (agentFlagImgDest | lowercase) + '.svg'"
+                                      alt="flags" class="img-responsive border" style="max-width:100%; max-height:100%; border: 1px solid #3f5165;">
+                                  </div>
+                                  <span>{{agentDestphoneCode}}</span>
+                                </div>
+                                <div class="animated fadeIn country-section" ngbDropdownMenu aria-labelledby="phoneCode">
+                                  <ng-scrollbar [trackX]="false" style="margin-bottom: 0rem; min-height: 200px;">
+                                    <ul class="list-group m-0">
+                                      <li class="list-group-item d-flex justify-content-start" *ngFor="let list of countryList" (click)="selectPhoneCode(list,'destination')">
+                                        <div class="d-flex mr-2" style="width:16px; height:12px; margin-top: 2px;">
+                                          <img [src]="'../../../../../assets/images/flags/4x3/' + (list.code | lowercase) + '.svg'" alt="{{list.code + '-flags'}}"
+                                            style="max-width:100%; max-height:100%;">
+                                        </div>
+                                        <span style="line-height: 1;"> {{list.desc[0].CountryPhoneCode}}</span>
+                                      </li>
+                                    </ul>
+                                  </ng-scrollbar>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control control-phone p-1" maxlength="13" placeholder="123456789" formControlName="contact"
+                            (keypress)="NumberValid($event)" (focusout)="errorMessages('dest')" (focus)="sup_dest_contact_error=false"
+                          />
+                        </div>
+                        <span class="animated fadeIn" *ngIf="sup_dest_contact_error">
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormDest.controls['contact'].hasError('required') && (AgentInfoFormDest.controls.contact.dirty || AgentInfoFormDest.controls.contact.touched)">
+                            This field is required!</p>
+                          <p class="inputError animated fadeIn" *ngIf="!AgentInfoFormDest.controls['contact'].hasError('pattern') && AgentInfoFormDest.controls['contact'].hasError('minlength') && (AgentInfoFormDest.controls.contact.dirty || AgentInfoFormDest.controls.contact.touched)">
+                            Phone number should be minimum 7 digits</p>
+                          <p class="inputError animated fadeIn" *ngIf="!AgentInfoFormDest.controls['contact'].hasError('pattern') && AgentInfoFormDest.controls['contact'].hasError('maxlength') && (AgentInfoFormDest.controls.contact.dirty || AgentInfoFormDest.controls.contact.touched)">
+                            Phone number should not exceed from 12 digits</p>
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormDest.controls['contact'].hasError('pattern') && (AgentInfoFormDest.controls.contact.dirty || AgentInfoFormDest.controls.contact.touched)">
+                            Please enter valid information</p>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="offset-xl-1 offset-lg-0 col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-12 text-xl-right text-lg-left">
+                      <div class="form-group">
+                        <label>Email</label>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                      <div class="form-group">
+                        <input class="form-control" placeholder="abc@email.com" type="email" formControlName="email" [ngClass]="(sup_dest_email_error)? 'inputError': ''"
+                          (focusout)="errorMessages('dest')" (focus)="sup_dest_email_error=false" />
+                        <span class="animated fadeIn" *ngIf="sup_dest_email_error">
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormDest.controls['email'].hasError('required') && (AgentInfoFormDest.controls.email.dirty || AgentInfoFormDest.controls.email.touched)">
+                            This field is required!</p>
+                          <p class="inputError animated fadeIn" *ngIf="AgentInfoFormDest.controls['email'].hasError('pattern') && (AgentInfoFormDest.controls.email.dirty || AgentInfoFormDest.controls.email.touched)">
+                            Please enter valid information</p>
+                        </span>
+                      </div>
+                      <!-- <button class="btn btn-outline-primary hvr-sweep-to-right pull-right mt-4 pl-5 pr-5"
+                        (click)="updateAgentInfoDest()">Confirm</button> -->
+                      <div class="row mt-2 pl-5 pr-3">
+                        <button class="col btn btn-outline-primary hvr-sweep-to-right" type="button" (click)="resetForm('destin')">Reset</button>
+                        <button [disabled]="AgentInfoFormDest.invalid" class="col btn btn-primary hvr-sweep-to-right ml-3" type="submit" (click)="updateAgentInfoDest()">Confirm</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <h4 [hidden]="false" *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'" class="view-booking-shipment-detail-heading mt-5 mb-3">Other Documents</h4>
+      <div class="row" [hidden]="false" *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="other-document border-0">
+                <ngb-accordion [closeOthers]="true" #acc1="ngbAccordion" (panelChange)="onAccordChange($event)">
+                  <span *ngFor="let document of additionalDocumentsCustomers; let doc_index = index">
+                    <ngb-panel [id]="'static-' + doc_index " *ngIf="document?.DocumentID" [disabled]="document?.DocumentLastStatus.toLowerCase() === 'approved'">
+                      <ng-template ngbPanelTitle>
+                        <div class="accordion mb-2" (click)="onDocumentClick(document,doc_index)">
+
+                          <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-column text-left">
+                              <h2 class="accordion-title">
+                                <img alt="check icon" class="icon-size-24 check-icon ng-star-inserted" src="../../../../../assets/images/icons/Icons_Check.svg"
+                                  *ngIf="document?.DocumentID > 0">
+                                <span class="docTitle" (click)="acDownloadAction(document.DocumentFileName, acc1,'static-', doc_index, 'customer')">
+                                  {{document?.DocumentName}}
+                                </span>
+                                <!-- <span *ngIf="document.DocumentFileName" (click)="downloadAction(document.DocumentFileName, acc,'static-', doc_index)" class="fa fa-cloud-download"></span> -->
+                              </h2>
+                              <p class="accordion-time" *ngIf="document.DocumentUploadDate">
+                                Uploaded on {{document.DocumentUploadDate | date : "d MMM, yyyy"}} {{document.DocumentUploadDate | date : "H:mm"}} GMT
+                              </p>
+                              <!-- No Expiry Fields Available yet -->
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <span class="badge badge-pill hashmove-badge-danger mr-4 mt-2 mr-1" *ngIf="document?.ExpiryStatusCode === 'EXPIRING-RED'">{{document?.ExpiryStatusMessage}}</span>
+                              <span class="badge badge-pill hashmove-badge-warning mr-4 mt-2 mr-1" *ngIf="document?.ExpiryStatusCode === 'EXPIRING-YEL'">{{document?.ExpiryStatusMessage}}</span>
+                              <span class="badge badge-pill hashmove-badge-primary-grey mr-4 mt-2 mr-1" *ngIf="document?.ExpiryStatusCode === 'EXPIRING-BLK'">{{document?.ExpiryStatusMessage}}</span>
+
+                              <span class="badge badge-success mr-2" *ngIf="document && document.DocumentFileName && document.DocumentLastStatus.toLowerCase() == 'approved'">
+                                APPROVED
+                              </span>
+                              <span class="badge hashmove-badge-danger mr-2" *ngIf="document && document.DocumentFileName &&  document.DocumentLastStatus.toLowerCase() == 're-upload'">
+                                REJECTED </span>
+                              <a href="javascript:;" class="btn btn-outline-primary pull-right hvr-sweep-to-right mr-1" *ngIf="document && document.DocumentID > 0 && document.DocumentFileName && document.IsUploadable && document.DocumentLastStatus.toLowerCase() != 're-upload' && document.DocumentLastStatus.toLowerCase() !== 'approved'"
+                                (click)="reuploadDoc(document, acc1, 'static-' + doc_index )">
+                                Reject
+                              </a>
+                              <a href="javascript:;" class="btn btn-outline-primary pull-right hvr-sweep-to-right mr-1" *ngIf="document && document.DocumentID > 0 && document.DocumentFileName && document.IsUploadable && (document.DocumentLastStatus.toLowerCase() != 'approved' && document.DocumentLastStatus.toLowerCase() != 're-upload')"
+                                (click)="approvedDoc(document, acc1, 'static-' + doc_index )">
+                                Approve
+                              </a>
+                              <a href="javascript:;" class="btn btn-outline-primary pull-right hvr-sweep-to-right" *ngIf="!document.ShowUpload && document.DocumentLastStatus.toLowerCase() !== 'approved'">
+                                {{ (document.DocumentFileName) ? 'Upload Again' : 'Upload'}}
+                              </a>
+                            </div>
+                          </div>
+                          <hr class="">
+                        </div>
+                      </ng-template>
+                      <ng-template ngbPanelContent>
+                        <div class="row mt-4">
+                          <div class="offset-2 col-8">
+                            <div class="settings-documents-foam">
+                              <div class="row">
+                                <!-- <a href="{{'http://10.20.1.125:100' + document.DocumentFileName}}" target="_blank">asdasd</a> -->
+                                <div class="col-12 mb-3 form-group" *ngFor="let doc_control of document?.MetaInfoKeysDetail; let controlIndex = index">
+
+                                  <input *ngIf="doc_control.DataType.toLowerCase() === 'datetime'" type="text" class="form-control settings-documents-foam-field"
+                                    name="{{doc_control.KeyName.toLowerCase()}}" [displayMonths]="displayMonths" [navigation]="navigation"
+                                    onkeypress="return false" [outsideDays]="outsideDays" [showWeekNumbers]="showWeekNumbers"
+                                    ngbDatepicker [minDate]="minDate" #d="ngbDatepicker" placeholder="{{doc_control.KeyNameDesc}}"
+                                    (click)="d.toggle()" (dateSelect)="dateChangeEvent($event, controlIndex)" [(ngModel)]="doc_control.DateModel">
+
+                                  <input *ngIf="doc_control.DataType.toLowerCase() === 'text'" type="text" class="form-control settings-documents-foam-field"
+                                    name="{{doc_control.KeyName.toLowerCase()}}" [maxLength]="doc_control.FieldLength" placeholder="{{doc_control.KeyNameDesc}}"
+                                    [required]="doc_control.isIsMandatory" [(ngModel)]="doc_control.KeyValue" (ngModelChange)="onDocInputChange($event)"
+                                  />
+
+                                  <input *ngIf="doc_control.DataType.toLowerCase() === 'number'" type="number" class="form-control settings-documents-foam-field"
+                                    name="{{doc_control.KeyName.toLowerCase()}}" [maxLength]="doc_control.FieldLength" placeholder="{{doc_control.KeyNameDesc}}"
+                                    [required]="doc_control.isIsMandatory" [(ngModel)]="doc_control.KeyValue" (ngModelChange)="onDocInputChange($event)"
+                                  />
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-12">
+                                  <!-- File Upload -->
+                                  <div class="uploader text-center">
+                                    <app-drag-drop [existingFile]="document.DocumentName" [allowedExtension]="['pdf', 'jpg', 'jpeg', 'xlsx', 'xls', 'doc', 'docx', 'png', 'txt']"
+                                      (FileDropEvent)="customDragCheck($event)" (InvalidFileEvent)="fileSelectFailedEvent($event)">
+                                    </app-drag-drop>
+                                    <button href="javascript:;" type="" class="btn btn-primary hvr-sweep-to-right mt-4 mb-2 text-uppercase w-100" (click)="uploadDocument(acc1,'static-', doc_index, 'customer', document)">Upload</button>
+                                    <a href="javascript:;" class="col-12 text-center uploader-cancel-btn" (click)="document.ShowUpload = false;acc1.toggle('static-' + doc_index );">Cancel</a>
+                                    <!-- <app-loader-main *ngIf="loading"></app-loader-main> -->
+                                  </div>
+                                  <!--/ File Uploader -->
+                                  <hr class="">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </ngb-panel>
+                  </span>
+                </ngb-accordion>
+              </div>
+              <div class="row">
+                <div class="col pl-4 pr-4">
+                  <a href="javascript:;" class="addAnother animated fadeIn" (click)="addDocument('customer')">
+                    <img src="../../../../assets/images/icons/icon_add.svg" width="16px" alt="" class="mr-1 icon-size-16 mb-1"> Add Document
+                  </a>
+                </div>
+              </div>
+              <div class="card-title mt-5" *ngIf="false">
+                <h5>By Providers</h5>
+                <hr />
+              </div>
+              <div class="document border-0" *ngIf="false">
+                <ngb-accordion [closeOthers]="true" #acc2="ngbAccordion">
+                  <span *ngFor="let document of additionalDocumentsProviders; let doc_index = index">
+                    <ngb-panel [id]="'static-' + doc_index " *ngIf="document?.DocumentID">
+                      <ng-template ngbPanelTitle>
+                        <div class="accordion">
+                          <div class="row">
+                            <div class="col-xl-6 col-sm-12 text-left">
+                              <h2 class="accordion-title">
+                                <span class="docTitle" (click)="acDownloadAction(document.DocumentFileName, acc2,'static-', doc_index, 'provider')">{{document.DocumentTypeName}}</span>
+                                <!-- <span *ngIf="document.DocumentFileName" (click)="downloadAction(document.DocumentFileName, acc,'static-', doc_index)" class="fa fa-cloud-download"></span> -->
+                              </h2>
+                              <p class="accordion-time" *ngIf="document.DocumentUploadDate">
+                                Uploaded on {{document.DocumentUploadDate | date : "d MMM, yyyy"}} {{document.DocumentUploadDate | date:"H:mm"}} GMT
+                              </p>
+                              <!-- No Expiry Fields Available yet -->
+                            </div>
+
+                            <!-- <div class="col-xl-6 col-sm-12 text-right" [ngClass]="{'active': selectedItem === 'item3'}" (click)="selectedItem = 'item3'"> -->
+                            <div class="col-xl-6 col-sm-12 text-right">
+                              <span class="badge badge-pill hashmove-badge-danger mr-4 mt-2" *ngIf="document?.ExpiryStatusCode === 'EXPIRING-RED'">{{document?.ExpiryStatusMessage}}</span>
+                              <span class="badge badge-pill hashmove-badge-warning mr-4 mt-2" *ngIf="document?.ExpiryStatusCode === 'EXPIRING-YEL'">{{document?.ExpiryStatusMessage}}</span>
+                              <span class="badge badge-pill hashmove-badge-primary-grey mr-4 mt-2" *ngIf="document?.ExpiryStatusCode === 'EXPIRING-BLK'">{{document?.ExpiryStatusMessage}}</span>
+                              <!-- <a href="javascript:;"
+                                                    class="btn btn-outline-primary pull-right col-5 hvr-sweep-to-right"
+                                                    *ngIf="!document.ShowUpload">
+                                                    {{ (document.DocumentFileName) ? 'Upload Again' : 'Upload'}}
+                                                  </a> -->
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                      <ng-template ngbPanelContent>
+                        <div class="row">
+                          <div class="col-12 card-wrapper">
+                            <div class="settings-documents-foam">
+                              <div class="row">
+                                <!-- <a href="{{'http://10.20.1.125:100' + document.DocumentFileName}}" target="_blank">asdasd</a> -->
+                                <div class="col-12 mb-3" *ngFor="let doc_control of document?.MetaInfoKeysDetail; let controlIndex = index">
+
+                                  <input *ngIf="doc_control.DataType.toLowerCase() === 'datetime'" type="text" class="form-control settings-documents-foam-field"
+                                    name="{{doc_control.KeyName.toLowerCase()}}" [displayMonths]="displayMonths" [navigation]="navigation"
+                                    onkeypress="return false" [outsideDays]="outsideDays" [showWeekNumbers]="showWeekNumbers"
+                                    ngbDatepicker [minDate]="minDate" #d="ngbDatepicker" placeholder="{{doc_control.KeyNameDesc}}"
+                                    (click)="d.toggle()" (dateSelect)="dateChangeEvent($event, controlIndex)" [(ngModel)]="doc_control.DateModel">
+
+                                  <input *ngIf="doc_control.DataType.toLowerCase() === 'text'" type="text" class="form-control settings-documents-foam-field"
+                                    name="{{doc_control.KeyName.toLowerCase()}}" [maxLength]="doc_control.FieldLength" (keypress)="onKeyPress($event, controlIndex)"
+                                    placeholder="{{doc_control.KeyNameDesc}}" [required]="doc_control.isIsMandatory" [(ngModel)]="doc_control.KeyValue"> (ngModelChange)="onDocInputChange($event)"
+
+                                  <input *ngIf="doc_control.DataType.toLowerCase() === 'number'" type="number" class="form-control settings-documents-foam-field"
+                                    name="{{doc_control.KeyName.toLowerCase()}}" [maxLength]="doc_control.FieldLength" (keypress)="onKeyPress($event, controlIndex)"
+                                    placeholder="{{doc_control.KeyNameDesc}}" [required]="doc_control.isIsMandatory" [(ngModel)]="doc_control.KeyValue"> (ngModelChange)="onDocInputChange($event)"
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-12">
+                                  <!-- File Upload -->
+                                  <div class="uploader">
+                                    <!-- <app-drag-drop [existingFile]="document.DocumentName"
+                                                          [allowedExtension]="['pdf', 'jpg', 'jpeg', 'xlsx', 'xls', 'doc', 'docx', 'png', 'txt']"
+                                                          (FileDropEvent)="customDragCheck($event)"
+                                                          (InvalidFileEvent)="fileSelectFailedEvent($event)">
+                                                        </app-drag-drop> -->
+                                    <!-- <button href="javascript:;" type=""
+                                                          class="btn btn-primary col-12 hvr-sweep-to-right mt-4 text-uppercase"
+                                                          (click)="uploadDocument(acc,'static-', doc_index, 'provider')">Upload</button>
+                                                        <a href="javascript:;" class="col-12 text-center uploader-cancel-btn"
+                                                          (click)="document.ShowUpload = false;acc.toggle('static-' + doc_index );">Cancel</a> -->
+                                    <!-- <app-loader-main *ngIf="loading"></app-loader-main> -->
+                                  </div>
+                                  <!--/ File Uploader -->
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </ngb-panel>
+                  </span>
+                </ngb-accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/ document required -->
+    </div>
+    <div class="col-xl-4 view-booking-shipment-detail-right">
+
+      <div class="position-sticky">
+
+        <!-- Help & Support -->
+        <div class="card mb-4">
+          <div class="map">
+            <agm-map (mapReady)="mapInit($event)" [zoom]="zoomlevel" [mapDraggable]="false" [zoomControl]="false" [streetViewControl]="false">
+              <agm-marker [iconUrl]="icon" *ngFor="let marker of mapOrgiToDest" [latitude]="marker.lat" [longitude]="marker.lng">
+              </agm-marker>
+              <agm-polyline [strokeWeight]="2" [strokeColor]="'#2196f3'">
+                <agm-polyline-point *ngFor="let marker of mapOrgiToDest" [latitude]="marker.lat" [longitude]="marker.lng">
+                </agm-polyline-point>
+              </agm-polyline>
+            </agm-map>
+          </div>
+          <div class="card-body d-flex justify-content-between" *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'">
+            <div class="ports">
+              <span class="d-block ports-title">Origin</span>
+              <div class="icon flag-icon-20-12 align-top mr-2 pull-left">
+                <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.origin | lowercase) + '.svg'}}">
+              </div>
+              <div class="d-flex mt-2">
+                <label class="ports-label">{{bookingDetails.PolCode}}</label>
+                <small class="d-block">{{bookingDetails.PolName}}</small>
+              </div>
+            </div>
+            <img alt="img" class="icon-size-16 ports-direction" src="../../../../assets/images/icons/icon_route_arrow_blue.svg">
+            <div class="ports">
+              <span class="d-block ports-title">Destination</span>
+              <div class="icon flag-icon-20-12 align-top mr-2 pull-left">
+                <img alt="flag icon" src="{{'../../../../../assets/images/flags/4x3/' + (bookingDetails.destination | lowercase) + '.svg'}}">
+              </div>
+              <div class="d-flex mt-2">
+                <label class="ports-label">{{bookingDetails.PodCode}}</label>
+                <small class="d-block">{{bookingDetails.PodName}}</small>
+              </div>
+            </div>
+          </div>
+          <div class="card-body d-flex" *ngIf="bookingDetails.ShippingModeCode == 'WAREHOUSE'">
+            <div class="billing-box">
+              <span class="d-block ports-title">Location</span>
+              <ul class="list-group list-group-flush mt-1">
+                <li class="list-group-item">
+                  <div class="category d-flex">
+                    <img src="{{'../../../../../assets/images/flags/4x3/' +(bookingDetails.WHCountryCode | lowercase)+'.svg'}}" alt="icon" class="icon icon-size-22-14">
+                    <span class="long-text">{{bookingDetails.WHAddress}}</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- <div class="card-body" *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'">
+          <div class="billing-box">
+            <span class="d-block ports-title">Cargo Details</span>
+            <ul class="list-group list-group-flush mt-1">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="category d-flex">
+                  <img src="../../../../assets/images/icons/icon_container.svg" alt="Goods" class="icon icon-size-16">
+                  <span class="long-text">{{bookingDetails.ShippingCatName}}</span>
+                </div>
+                <div class="catDetail">
+                  <span class="amount-text" *ngFor="let contDetail of bookingDetails.BookingContainerDetail">
+                    {{contDetail.ContainerSpecDesc}} x {{contDetail.BookingContTypeQty}}
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div> -->
+          <div class="card-body">
+            <div class="billing-box">
+              <span class="d-block ports-title">
+                In {{(searchCriteria?.searchMode === 'warehouse-lcl')?'this Booking':'the Shipment'}}
+              </span>
+              <ul class="list-group list-group-flush mt-1">
+                <li class="list-group-item">
+                  <div class="catDetail">
+                    <span class="amount-text">{{bookingDetails.BookingDesc | limitTo : 135}}</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cargo Details -->
+        <div class="card mb-4" *ngIf="bookingDetails.ShippingModeCode != 'WAREHOUSE'">
+          <div class="card-body">
+            <div class="billing-box">
+              <h5 class="card-title" style="text-transform: capitalize">
+                Cargo Details
+              </h5>
+              <ul class="list-group list-group-flush mt-1">
+                <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="!isTruck">
+                  <div class="category">
+                    <span class="long-text">
+                      <img src="../../../../assets/images/icons/icon_container.svg" alt="umbrella-icon" class="icon-size-16 mr-2 mb-0" *ngIf="bookingDetails.ShippingModeCode !== 'WAREHOUSE'">
+                      <b>{{bookingDetails.ShippingCatName}}</b>
+                    </span>
+                  </div>
+                  <div class="catDetail w-50">
+                    <div class="" *ngIf="bookingDetails.ShippingModeCode !== 'WAREHOUSE' && bookingDetails.ShippingModeCode !== 'AIR'">
+                      <div class="amount-text text-truncate text-right" ngbTooltip="{{contDetail.ContainerSpecDesc}} x {{contDetail.BookingContTypeQty}}"
+                        *ngFor="let contDetail of bookingDetails.BookingContainerDetail">
+                        {{contDetail.ContainerSpecDesc}} x {{contDetail.BookingContTypeQty}}
+                      </div>
+                    </div>
+                    <div class="amount-text text-truncate text-right" ngbTooltip="{{searchCriteria.CBM}} cbm, {{searchCriteria.KG}} kg" *ngIf="bookingDetails.ShippingModeCode === 'WAREHOUSE'">
+                      {{searchCriteria.CBM}} cbm, {{searchCriteria.KG}} kg
+                    </div>
+                    <div class="amount-text text-truncate text-right" ngbTooltip="{{searchCriteria.chargeableWeight}} kg" *ngIf="bookingDetails.ShippingModeCode === 'AIR'">
+                      {{searchCriteria?.chargeableWeight}} kg
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <ul class="list-group list-group-flush mt-1" *ngIf="isTruck">
+                <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let contDetail of bookingDetails.BookingContainerDetail">
+                  <div class="category">
+                    <span class="long-text">
+                      <b>{{contDetail.ContainerSpecShortName}}</b>
+                    </span>
+                  </div>
+                  <div class="catDetail w-50">
+                    <div class="amount-text text-truncate" ngbTooltip="{{contDetail.ContainerSpecDesc}} x {{contDetail.BookingContTypeQty}}">
+                      {{contDetail.ContainerSpecDesc}} x {{contDetail.BookingContTypeQty}}
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!--/ Help & Support -->
+
+        <!-- Help & Support -->
+        <div class="card">
+          <div class="card-body">
+            <div class="helpSupport" *ngIf="HelpDataLoaded">
+              <div class="helpSupport-head">
+                <img src="../../../../assets/images/icons/mob-icon.svg" alt="umbrella-icon">
+                <h5>Help &amp; Support</h5>
+              </div>
+              <div class="helpSupport-content">
+                <h4>Customer Support</h4>
+                <div class="address">
+                  <p>
+                    {{helpSupport.HMSupportAddress}}
+                  </p>
+                  <!-- <div class="helpLine">
+                  <p>
+                    Helpline : {{helpSupport.HMSupportPhone}}
+                  </p>
+                </div> -->
+                  <div class="dotted"></div>
+                </div>
+              </div>
+              <div class="helpSupport-footer">
+                <p>
+                  For any issues with your booking, contact:
+                  <!-- <a href="{{helpSupport.HMSupportWebAdd}}" class="link-hover-black" target="_blank">Help Center</a> -->
+                  <!-- send us an email at -->
+                  <a class="link-hover-black" href="{{'mailto:' + helpSupport.HMSupportEmail}}">{{helpSupport.HMSupportEmail}}</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/ Help & Support -->
+      </div>
+    </div>
+  </div>
+  <!--/ shipping details -->
+
+</div>
+<!--/ view booking -->

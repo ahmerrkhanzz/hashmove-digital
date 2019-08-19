@@ -1,0 +1,218 @@
+@import "../../../../../assets/scss/_variables";
+
+.input-counter {
+  .input-group {
+    width: 100% !important;
+    border: solid 1px $provider-input-border;
+    border-radius: 0.25rem;
+    background-color: $white-color;
+
+    input.form-control {
+      height: 2.9rem;
+      text-align: center;
+      color: #2b2b2b;
+      font-family: "proxima-nova", sans-serif;
+      font-size: 0.875rem;
+      border: solid 0px transparent;
+      background: transparent;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    &-text {
+      border: solid 0px;
+    }
+
+    input {
+      border: 0;
+    }
+
+    label.sr-only {
+      display: inline-block;
+      background-color: transparent;
+      margin-top: 0px;
+      position: relative;
+      padding: 1rem 0.8rem;
+      width: 38%;
+      text-transform: uppercase;
+      color: $secondary-grey;
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+    }
+
+    &-text {
+      background: transparent;
+
+      i {
+        color: $color-plus-minus;
+        font-weight: $font-weight-normal;
+        font-size: $font-size-medium;
+
+        &:hover {
+          color: $active-text-color;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.nav-tabs {
+  border: none;
+  margin-bottom: 30px;
+  width: 65.7%;
+  margin-top: 8px;
+
+  .nav-item {
+    flex: auto;
+    text-align: center;
+
+    .nav-link {
+      background: none;
+      border: none;
+      box-shadow: 0px 1px 0px 0px $grey-border;
+      color: rgba(115, 133, 147, 0.6);
+      font-size: $font-size-medium;
+      font-weight: $font-weight-mid;
+      font-family: $font-proxima;
+      line-height: 2;
+
+      span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+          width: 25px;
+          height: 25px;
+          margin-right: 20px;
+          fill: $unactive-container-tab;
+        }
+      }
+
+      &.active {
+        box-shadow: 0px 2px 0px 0px $color-topmenuactive;
+        color: $color-topmenuactive;
+
+        svg {
+          fill: $primary-color;
+        }
+      }
+    }
+  }
+}
+
+.table {
+  thead {
+    border: 1px solid $grey-border;
+    background: #fff;
+
+    th {
+      font-family: $font-proxima;
+      font-size: $font-size-medium;
+      font-weight: $font-weight-normal;
+      color: $dark-grey-blue;
+      border: 0;
+      text-transform: uppercase;
+    }
+  }
+
+  tbody {
+    border: 1px solid $grey-border;
+    border-top: 0;
+
+    tr {
+      border-bottom: 1px solid $grey-border;
+      transition: 0.8s;
+
+      td {
+        padding: 0.75rem 0.75rem;
+        border: 0;
+        vertical-align: middle;
+        font-family: $font-proxima;
+
+        &.shipping-line {
+          color: $sky-blue-default;
+          font-weight: $font-weight-mid;
+        }
+
+        .flag-container {
+          float: left;
+          border: 1px solid $primary-grey;
+          margin-right: 10px;
+          display: flex;
+          margin-top: 5px;
+
+          img {
+            width: 16px;
+            height: 12px;
+          }
+        }
+
+        .sub-detail {
+          font-size: $font-size-medium;
+          color: $primary-grey;
+          font-family: $font-proxima;
+          display: block;
+        }
+      }
+
+      &:hover {
+        box-shadow: 0px 0px 50px 0px rgba(51, 59, 69, 0.15);
+      }
+    }
+  }
+}
+
+.date-control {
+  .dateIcon {
+    position: relative;
+
+    input {
+      padding-left: 2.625rem;
+
+      &::placeholder {
+        font-style: italic;
+      }
+
+      &::-ms-input-placeholder {
+        font-style: italic;
+      }
+
+      &::-webkit-input-placeholder {
+        font-style: italic;
+      }
+    }
+
+    &:before {
+      content: url("assets/images/icons/Icons_Calendar.svg");
+      position: absolute;
+      left: 15px;
+      top: 14px;
+      width: 16px;
+      height: 16px;
+      z-index: 4;
+      opacity: 0.5;
+    }
+  }
+}
+
+.model-sub-head {
+  color: $secondary-grey;
+  font-family: $font-proxima;
+  font-weight: $font-weight-mid;
+  font-size: $font-size-medium;
+  text-transform: uppercase;
+}
+
+button {
+  width: 200px;
+  height: 48px;
+}
+.grey-anc-btn {
+  .link-hover-grey {
+      font-size: $font-size-base;
+  }
+}

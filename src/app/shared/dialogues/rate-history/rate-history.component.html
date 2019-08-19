@@ -1,0 +1,181 @@
+<section class="ratesHistory">
+  <div class="modal-header">
+    <h4 class="m-0">Rate History</h4>
+    <a class="pointer crossIcon" (click)="closeModal()">
+      <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
+    </a>
+  </div>
+
+  <div class="modal-body bg-light">
+    <app-loader-main *ngIf="loading"></app-loader-main>
+    <div class="history-rate" *ngIf="(getRecord.type === 'Rate_WH' && history) && !loading">
+      <div class="d-flex align-items-center pt-1">
+        <div class="warehouse-image mr-2">
+          <img src="../../../../assets/images/hm-symbol.svg">
+        </div>
+        <ul class="warehouse-list-group">
+          <li class="warehouse-list-group-item mt-2">
+            <label class="sub-title mb-0"> Title </label>
+          </li>
+
+          <li class="warehouse-list-group-item mb-3">
+            <span class="info"> {{history[0].AuditDescDetailed[0]}} </span>
+          </li>
+
+          <li class="warehouse-list-group-item mt-2">
+            <label class="sub-title mb-0"> Location </label>
+          </li>
+
+          <li class="warehouse-list-group-item">
+            <span class="info-2"> <img src="../../../../assets/images/icons/Icons_Location_mid_grey.svg"
+                class="icon-size-16"> {{history[0].AuditDesc.Location}} </span>
+          </li>
+
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="row detail" *ngIf="(getRecord.type !== 'Rate_WH') && !loading">
+      <div class="col-6 mb-4">
+        <div class="ports">
+          <small class="d-block">From</small>
+          <div class="d-flex" *ngIf="originDet?.PortType && originDet?.PortType !== 'CITY'">
+            <div class="flag-container">
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (originDet?.CountryCode | lowercase) + '.svg'}}"
+                alt="icon">
+            </div>
+            <div class="location">
+              <label class="ports-text"
+                *ngIf="getRecord.type && getRecord.type !== 'Rate_AIR'">{{originDet?.PortCode}}</label>
+              <span class="d-block" *ngIf="getRecord.type && getRecord.type !== 'Rate_AIR'">Port of
+                {{originDet?.PortName}}</span>
+              <span class="d-block" *ngIf="getRecord.type && getRecord.type === 'Rate_AIR'">
+                {{originDet?.PortName}}</span>
+            </div>
+          </div>
+          <div class="d-flex" *ngIf="originDet?.polType && originDet?.polType === 'CITY'">
+            <div class="flag-container">
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (originDet?.polImageName | lowercase) + '.svg'}}"
+                alt="icon">
+            </div>
+            <div class="location">
+              <label class="ports-text">{{originDet?.polName}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 mb-4">
+        <div class="ports">
+          <small class="d-block">To</small>
+          <div class="d-flex" *ngIf="destinationDet?.PortType && destinationDet?.PortType !== 'CITY'">
+            <div class="flag-container">
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (destinationDet?.CountryCode | lowercase) + '.svg'}}"
+                alt="icon">
+            </div>
+            <div class="location">
+              <label class="ports-text"
+                *ngIf="getRecord.type && getRecord.type !== 'Rate_AIR'">{{destinationDet?.PortCode}}</label>
+              <span class="d-block" *ngIf="getRecord.type && getRecord.type !== 'Rate_AIR'">Port of
+                {{destinationDet?.PortName}}</span>
+              <span class="d-block"
+                *ngIf="getRecord.type && getRecord.type === 'Rate_AIR'">{{destinationDet?.PortName}}</span>
+            </div>
+
+          </div>
+          <div class="d-flex" *ngIf="destinationDet?.podType && destinationDet?.podType === 'CITY'">
+            <div class="flag-container">
+              <img src="{{'../../../../assets/images/flags/1x1/'+ (destinationDet?.podImageName | lowercase) + '.svg'}}"
+                alt="icon">
+            </div>
+            <div class="location">
+              <label class="ports-text">{{destinationDet?.podName}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 mb-4" *ngIf="getRecord.type == 'Rate_FCL' || getRecord.type == 'Rate_AIR'">
+        <div class="ports">
+          <small class="d-block" *ngIf="getRecord.type == 'Rate_FCL'">Shipping Lines</small>
+          <small class="d-block" *ngIf="getRecord.type == 'Rate_AIR'">Air Lines</small>
+          <div class="d-flex">
+            <div class="flag-container shipping-logo">
+              <img [src]="baseExternalAssets + '/' + shippingInfo[0]?.imageName" alt="icon">
+            </div>
+            <div class="location">
+              <label class="ports-text">{{shippingInfo[0]?.title}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-6 mb-4">
+        <div class="ports">
+          <small class="d-block">Customer</small>
+          <div class="d-flex">
+            <div class="flag-container customer-logo">
+              <img src="{{getProviderImage(userProfile?.ProviderImage)}}" alt="icon">
+            </div>
+            <div class="location">
+              <label class="ports-text">{{userProfile.FirstNameBL}} {{userProfile.LastNameBL}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6" *ngIf="getRecord.type != 'Rate_LCL' && getRecord.type != 'Rate_AIR'">
+        <div class="ports">
+          <small class="d-block">Container</small>
+          <label class="ports-text">{{containerInfo?.ContainerWithSize}}</label>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="ports">
+          <small class="d-block">Cargo Type</small>
+          <label class="ports-text">{{cargoInfo}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="list" *ngIf="history">
+    <!-- <ng-scrollbar [autoHide]="true" class="history-scroll"> -->
+    <ng-container *ngIf="getRecord.type !== 'Rate_AIR' && getRecord.type !== 'Rate_WH'">
+      <ul class="list-group">
+        <li class="list-group-item d-flex flex-column" *ngFor="let list of history">
+          <label class="mb-0">
+            {{list.AuditDesc.Desc}} by {{list.AuditDesc.ModifiedBy}}
+          </label>
+          <!-- <p *ngFor="let item of list.AuditDescDetailed">
+            {{item}}
+          </p> -->
+          <label class="mb-0 activity">{{list.AuditDesc.Activity}}</label>
+          <small>on {{list.AuditDesc.CreatedDateTime | date:'dd MMM, yyyy HH:mm'}} (GMT) from
+            {{list.AuditDesc.Location}}</small>
+        </li>
+      </ul>
+    </ng-container>
+    <ng-container *ngIf="getRecord.type === 'Rate_AIR' || getRecord.type === 'Rate_WH'">
+      <ul class="list-group">
+        <li class="list-group-item d-flex flex-column" *ngFor="let list of history">
+          <label *ngFor="let item of list.AuditDescDetailed; let i = index">
+            {{item}}
+          </label>
+          <ng-container *ngIf="list.Activity">
+            <label class="mb-0 activity" *ngFor="let item of list.Activity">
+            {{item}}
+          </label>
+          </ng-container>
+          <small>on {{list.AuditDesc.CreatedDateTime | date:'dd MMM, yyyy HH:mm'}} (GMT) from
+            {{list.AuditDesc.Location}}</small>
+        </li>
+      </ul>
+    </ng-container>
+
+    <!-- </ng-scrollbar> -->
+  </div>
+  <p class=" m-0 text-center p-2" *ngIf="!history">No Results Found</p>
+</section>

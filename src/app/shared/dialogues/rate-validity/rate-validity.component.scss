@@ -1,0 +1,38 @@
+@import "../../../../assets/scss/_variables";
+.provider-modal {
+    .modal-header {
+        background: $modal-header-background;
+        .provider-modal-title {
+            font-size: 1.25rem;
+            margin: 4px 0 0 0;
+        }
+    }
+    .modal-body {
+      .date-control {
+        .dateIcon {
+          position: relative;
+    
+          input {
+            padding-left: 2.625rem;
+          }
+    
+          &:before {
+            content: url("../../../../assets/images/icons/Icons_Calendar.svg");
+            position: absolute;
+            left: 15px;
+            top: 14px;
+            width: 16px;
+            height: 16px;
+            z-index: 4;
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+}
+
+
+body .upper-medium-modal .modal-dialog {
+  max-width: 1055px !important;
+  margin: auto;
+}

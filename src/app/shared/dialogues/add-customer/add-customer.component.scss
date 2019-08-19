@@ -1,0 +1,63 @@
+@import "../../../../assets/scss/_variables";
+.modal-content {
+  min-width: 470px;
+  /deep/ .modal-header {
+    .modal-title {
+      font-family: $font-proxima;
+      font-size: 1.25rem;
+      font-weight: $font-proxima-weight-semibold;
+      .sub-heading {
+        font-size: $font-size-large;
+        font-family: $font-proxima;
+        font-weight: $font-weight-mid;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+    }
+    .close{
+      position: absolute;
+      right: 1rem;
+    }
+  }
+  .search-btn {
+    .btn {
+      font-family: $font-proxima;
+      padding: 0.75rem 0.5rem;
+      text-transform: uppercase;
+      width: 438px;
+      height: 52px;
+      margin-top: 1rem;
+    }
+  }
+  //---- modal 2 ---- //
+  .sub-detail {
+    font-size: $font-size-medium;
+    color: #2b2b2b;
+    font-family: $font-proxima;
+    display: block;
+    line-height: 1;
+    font-weight: $font-weight-normal;
+  }
+
+  .shipping-line {
+    color: #00a0df;
+    font-weight: 500;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+
+    img {
+      max-width: 32px;
+      max-height: 32px;
+      object-fit: contain;
+    }
+  }
+  .customer-link {
+    .send-invite {
+      font-size: $font-size-large;
+      color: $secondary-color;
+      font-family: $font-proxima;
+      font-weight: $font-weight-normal;
+    }
+  }
+  //---- modal 2 ---- //
+}

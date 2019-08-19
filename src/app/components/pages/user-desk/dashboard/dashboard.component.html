@@ -1,0 +1,190 @@
+<Section class="dashboard" *ngIf="providerInfo">
+  <!-- row -->
+  <div class="row welcomeSection ">
+    <div class="welcome-title col-8">
+    <h2>Hey {{providerInfo.CompanyName}}, Welcome<span *ngIf="providerInfo.LoginRank > 1"> Back</span>!</h2>
+    <p class="provider-info d-flex pull-left" *ngIf="providerInfo.LoginRank > 1">
+      Last logged in {{providerInfo.LastLoginDate | date : "d MMM, yyyy"}} {{providerInfo.LastLoginDate | date :
+      "H:mm"}} (GMT) from {{providerInfo.LastLoginCountryName}}
+    </p>
+    </div>
+    <div class="newbooking col-4">
+      <div ngbDropdown class="dropdown pull-right">
+        <div class="pointer" id="bookingMode" ngbDropdownToggle>
+          <span class="title">Make a new Booking</span>
+        </div>
+        <div aria-labelledby="bookingMode" class="sortFilter dropdown-menu" ngbDropdownMenu x-placement="bottom-left">
+  
+          <ul class="list-group">
+            <li class="list-group-item pointer">
+              <span><img class="icon-size-24 mr-3" src="../../../../../assets/images/icons/icons_ship_blue.svg">SEA FREIGHT</span>
+            </li>
+            <li class="list-group-item pointer" >
+              <span><img class="icon-size-24 mr-3" src="../../../../../assets/images/icons/Icons_Cargo_Plane_blue.svg">AIR FREIGHT</span>
+            </li>
+            <li class="list-group-item pointer">
+              <span><img class="icon-size-24 mr-3" src="../../../../../assets/images/icons/icon_warehouse_blue.svg">WAREHOUSE</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+   
+  </div>
+
+  <!-- Booking Summary -->
+  <div class="titleSection d-flex justify-content-between">
+    <h5 class="m-0">Overview</h5>
+    <div ngbDropdown class="dropdown">
+      <div class="pointer" id="sortByYear" ngbDropdownToggle>
+        <span>{{selectedYear}}</span>
+      </div>
+      <div aria-labelledby="sortByYear" class="sortFilter dropdown-menu" ngbDropdownMenu x-placement="bottom-left">
+        <ul class="list-group">
+          <li *ngFor="let yItem of bookingYears" class="list-group-item pointer" (click)="onYearSelect(yItem)">
+            <span>{{yItem?.BookingYear}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+<section class="bookingSummary mt-3">
+  <div class="row">
+  <div class="summarySection col-xl-6 col-md-6 col-sm-12">
+    <div class="summaryTitle">
+      <h5><img src="../../../../../assets/images/icons/icon_user02.svg" class="icon-size-24 mr-3"> Total Customers</h5>
+    </div>
+    <div class="summaryQuantity pt-2 pb-2">
+      <div class="rates">
+      <span>{{providerInfo.TotalCustomers}}</span>
+      </div>
+    </div>
+  </div>
+
+<div class="summarySection col-xl-6 col-md-6 col-sm-12">
+    <div class="summaryTitle">
+      <h5><img src="../../../../../assets/images/icons/icon_revenue.svg" class="icon-size-24 mr-3"> total Revenue</h5>
+    </div>
+    <div class="summaryQuantity d-flex pt-2 pb-2">
+      <div class="rates">
+      <small class="mr-2">{{providerInfo?.RevenueCurrency}}</small>
+      <span>{{providerInfo?.TotalRevenue | number: '1.2-2'}}</span>
+      </div>
+    </div>
+</div>
+  </div>
+  </section>
+
+
+  <!-- Booking Summary End -->
+
+  <!-- billing summery -->
+  <!-- <div class="titleSection d-flex justify-content-between">
+    <h5 class="m-0">Billing</h5>
+  </div>
+
+  <section class="billingSummary">
+    <div class="row">
+    <div class="summarySection col-xl-6 col-lg-5 col-md-6 col-sm-12 d-flex">
+      <div class="iconCard">
+        <img src="../../../../../assets/images/icons/icon_card.svg" alt="icon">
+      </div>
+      <div class="detailPortion mt-3">
+      <div class="summaryTitle">
+        <h5 class="mb-0">PAYMENT DUE</h5>
+      </div>
+      <div class="summaryQuantity d-flex pt-2 pb-2">
+        <div class="rates">
+          <small class="mr-2">{{providerInfo.BillingCurrencyCode}}</small>
+          <span>{{providerInfo.BillingTillDate | number: '1.2-2'}}</span>
+          <span class="ml-2 badge hashmove-badge-danger" *ngIf="providerInfo?.PaymentDueDate"><strong>{{providerInfo.PaymentDueDate | date : "d MMM, yyyy"}}</strong></span>
+        </div>
+      </div>
+      </div>
+    </div>
+      <div class="summarySection col-xl-6 col-lg-7 col-md-6 col-sm-12 d-flex justify-content-end align-items-lg-center flex-lg-row flex-column">
+            <button class="btn btn-outline-primary hvr-sweep-to-right pl-3 pr-3 pt-2 pb-2 mb-1"
+              routerLink="/provider/billing" [disabled]="!providerInfo.TotalBookingCount">
+              VIEW DETAILS
+            </button>
+            <button class="btn btn-primary hvr-sweep-to-right pl-4 pr-4 pt-2 pb-2 mb-1"
+              [disabled]="!providerInfo.TotalBookingCount">
+              MAKE A PAYMENT
+            </button>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- billing summery end -->
+
+  <!-- booking summery -->
+<div class="titleSection d-flex justify-content-between">
+  <h5 class="m-0">Bookings</h5>
+</div>
+
+<section class="bookingSummary">
+  <div class="row">
+    <div class="summarySection col-xl-6 col-md-6 col-sm-12">
+      <div class="summaryTitle">
+        <h5>
+          <img src="../../../../../assets/images/icons/icon_booking_current.svg" class="icon-size-24 mr-3"> Current Bookings</h5>
+      </div>
+      <div class="summaryQuantity pt-2 pb-2">
+        <div class="rates pointer" (click)="bookingsTabRedirect('currentBookings')">
+          <span>{{providerInfo.CurrentBookingCount}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="summarySection col-xl-6 col-md-6 col-sm-12">
+      <div class="summaryTitle">
+        <h5>
+          <img src="../../../../../assets/images/icons/icon_booking_total.svg" class="icon-size-24 mr-3">Total Bookings</h5>
+      </div>
+      <div class="summaryQuantity pt-2 pb-2">
+        <div class="rates pointer" (click)="bookingsTabRedirect('totalBookings')">
+          <span>{{providerInfo.TotalBookingCount}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- booking summery end -->
+  <div class="bookingTypeSection mt-3">
+    <div ngbDropdown class="dropdown pull-right">
+      <div class="pointer" id="bookingMode" ngbDropdownToggle>
+        <span>{{selectedBookingMode}}</span>
+      </div>
+      <div aria-labelledby="bookingMode" class="sortFilter dropdown-menu" ngbDropdownMenu x-placement="bottom-left">
+
+        <ul class="list-group">
+          <li class="list-group-item pointer" (click)="selectedBookingMode = 'CURRENT BOOKINGS'">
+            <span>CURRENT BOOKINGS</span>
+          </li>
+          <li class="list-group-item pointer" (click)="selectedBookingMode = 'PAST BOOKINGS'">
+            <span>PAST BOOKINGS</span>
+          </li>
+          <!-- <li class="list-group-item pointer" (click)="selectedBookingMode = 'ALL BOOKINGS'">
+            <span>ALL BOOKINGS</span>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bookingOverview overflow-hidden" *ngIf="providerInfo.BookingDetails">
+    <app-bookings-card [booking]="obj" *ngFor="let obj of bookings | BookingMode : selectedBookingMode" (click)="viewBookingDetails(obj.BookingID, obj.ProviderID, obj.ShippingModeCodeobj)"></app-bookings-card>
+  </div>
+  <div class="overflow-hidden" *ngIf="!providerInfo.BookingDetails || (providerInfo.BookingDetails && !providerInfo.BookingDetails.length || !(providerInfo.BookingDetails | BookingMode : selectedBookingMode).length)">
+    <div class="animated bounceInDown card text-center p-1">
+      <p class="mb-0">You don't have any bookings yet </p>
+    </div>
+  </div>
+
+  <a href="javascript:;" class="hvr-icon-forward grey-anc-btn mt-3 pull-right pointer" (click)="viewAllBookings()">
+    <span class="link-hover-grey">View All Bookings</span>
+    <img alt="icon" class="icon-size-14 hvr-icon" src="../../../../../assets/images/icons/icon_arrow_right.svg">
+  </a>
+</Section>

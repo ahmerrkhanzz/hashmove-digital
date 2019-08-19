@@ -1,0 +1,21 @@
+@import "../../../../../assets/scss/_variables";
+.model-sub-head {
+  color: $secondary-grey;
+  font-family: $font-proxima;
+  font-weight: $font-weight-mid;
+  font-size: $font-size-medium;
+  text-transform: uppercase;
+
+  &-action {
+    font-size: $font-size-medium;
+    color: #8897a2;
+    font-weight: $font-weight-mid;
+    text-decoration: underline;
+  }
+}
+
+.grey-anc-btn {
+    .link-hover-grey {
+        font-size: $font-size-base;
+    }
+}

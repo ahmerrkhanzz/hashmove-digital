@@ -1,0 +1,105 @@
+<!-- User login Modal -->
+<div>
+  <div class="user-modal animated fadeIn">
+    <div class="modal-header">
+      <h4 class="user-modal-title m-0" *ngIf="data?.schedules && data?.schedules?.length && data?.bookingID > -1">
+        {{data.schedules.length}} vessel{{data.schedules.length > 1 ? 's' : ''}}
+        {{data.schedules.length > 1 ? 'are' : 'is'}} sailing on {{data.date}}</h4>
+      <h5 class="user-modal-title vessel m-0" *ngIf=" data?.bookingID === -1">
+        Schedule for <strong>{{data?.PolCode}}</strong> to <strong>{{data?.PodCode}}</strong></h5>
+      <h4 class="user-modal-title m-0" *ngIf="!data.schedules && data?.bookingID > -1">No schedule is available for
+        this date.</h4>
+      <a class="pointer crossIcon" (click)="closeModal()">
+        <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16">
+      </a>
+    </div>
+    <ng-scrollbar *ngIf="data?.schedules" [trackX]="false" style="overflow-x: hidden;">
+      <div class="modal-body p-0" style="max-height: 500px;overflow-x: hidden;">
+        <table class="table" *ngIf="data.schedules && data.schedules.length">
+          <thead>
+            <tr>
+              <th *ngIf="data?.bookingID > -1" width="20"></th>
+              <th width="100">TRANSIT</th>
+              <th width="190">SHIPPING LINE</th>
+              <th width="190">{{(data?.bookingID > -1)?'ORIGIN':'DEPARTURE'}}</th>
+              <th width="190">{{(data?.bookingID > -1)?'DESTINATION':'ETA'}}</th>
+              <th width="115">VESSEL</th>
+              <th width="115">VOYAGE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data.schedules">
+              <td *ngIf="data?.bookingID > -1">
+                <div class="fancyOptionBoxes">
+                  <input id="{{item.carrierScheduleID}}" name="warehouseType" type="radio"
+                    (click)="selectSchedule(item)">
+                  <label for="{{item.carrierScheduleID}}">
+                    <span class="m-0"></span>
+                  </label>
+                </div>
+              </td>
+              <td>{{item.transitDays}} {{item.transitDays > 1 ? 'days' : 'day'}}
+                {{(data?.bookingID === -1)?'direct':''}}
+              </td>
+              <td class="shipping-line">
+                <img src="{{getShippingLineImage(item.carrierImage)}}" alt="close"
+                  class="icon-size-20 mr-2">{{item.carrierName}}
+              </td>
+              <td>
+                <div *ngIf="data?.bookingID > -1">
+                  <div class="flag-container">
+                    <img type="image/svg+xml"
+                      src="../../../../assets/images/flags/4x3/{{item?.polCode.split(' ').shift().toLowerCase()}}.svg">
+                  </div>
+                  <span class="text-truncate">{{item.polName}}</span>
+                  <span class="sub-detail">{{item.etdDate | date:'dd MMM, yyyy'}}</span>
+                </div>
+                <div *ngIf="data?.bookingID === -1">
+                  <span>{{item.etdDate | date:'dd MMM, yyyy HH:MM'}}</span>
+                </div>
+              </td>
+              <td>
+                <div *ngIf="data?.bookingID > -1">
+                  <div class="flag-container">
+                    <img type="image/svg+xml"
+                      src="../../../../assets/images/flags/4x3/{{item?.podCode.split(' ').shift().toLowerCase()}}.svg">
+                  </div>
+                  <span class="text-truncate">{{item.podName}} </span>
+                  <span class="sub-detail">{{item.etaDate | date:'dd MMM, yyyy'}}</span>
+                </div>
+                <div *ngIf="data?.bookingID === -1">
+                  <span>{{item.etaDate | date:'dd MMM, yyyy HH:MM'}}</span>
+                </div>
+              </td>
+              <td>{{item.vesselName}} <span class="sub-detail m-0">{{item.vesselCode}}</span> </td>
+              <td>{{item.voyageRefNo}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="data?.bookingID > -1" class="row mt-4 mb-4">
+          <div class="col-12 d-flex justify-content-end">
+            <button class="btn btn-outline-primary hvr-sweep-to-right mr-2 pl-5 pr-5 pt-2 pb-2"
+              (click)="closeModal()">CANCEL</button>
+            <button class="btn btn-primary hvr-sweep-to-right ml-2 mr-4 pl-4 pr-4 pt-2 pb-2" *ngIf="data.schedules"
+              [disabled]="!selectedSchedule" (click)="confirmSchedule()">CONFIRM SCHEDULE</button>
+          </div>
+        </div>
+      </div>
+    </ng-scrollbar>
+    <div *ngIf="!data.schedules" class="modal-body">
+      <div class="text-center vessel-sched-not-found">
+        <p>
+          The schedule for this route is currently unavailable. It will be active within 1-2 hours.
+          <br>
+          <br>
+          Please try publishing rate later.
+          <br>
+          We apologize for any inconvenience.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!--/ User login Modal -->

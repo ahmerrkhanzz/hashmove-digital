@@ -1,0 +1,15 @@
+<div class="update-bl modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title"> Update B/L No.</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close(null)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="form-group">
+        <label for="Container1">Please provide B/L no. for this booking</label>
+        <input class="form-control" placeholder="Enter B/L number" [maxLength]="50" [(ngModel)]="BLNo">
+      </div>
+      <button type="submit" class="btn btn-primary hvr-sweep-to-right pull-right submit-btn mt-2" [disabled]="!BLNo" (click)="saveBL()">Submit </button>
+    </div>
+</div>

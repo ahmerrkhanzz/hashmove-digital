@@ -1,0 +1,96 @@
+<section class="billing" id="Billing" >
+  <div class="card">
+
+    <div class="close">
+      <a class="pointer crossIcon" (click)="closeModal()">
+        <img src="../../../../assets/images/icons/icon_close.svg" alt="close">
+      </a>
+    </div>
+
+    <div class="card-body">
+      <h5 class="card-title">
+        <img src="../../../../assets/images/icons/icon_summary.svg" alt="umbrella-icon" width="16px"> Billing Summary
+      </h5>
+      <h6 *ngIf="freightData.length">Freight Surcharges</h6>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of freightData">
+          <span class="long-text">
+            {{item.SurchargeCode}} - {{item.SurchargeName}}
+          </span>
+          <!-- <span class="amount-text">{{item.CurrencyCode}} {{item.TotalAmount | number: '1.2-2'}}</span> -->
+          <!-- <span class="long-text">
+            Total Rent
+          </span> -->
+          <span class="amount-text">{{item.CurrencyCode}} {{item.TotalAmount | number: '1.2-2'}}</span>
+        </li>
+      </ul>
+      <hr>
+      <h6 *ngIf="additionalData.length">Additional Charges</h6>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of additionalData">
+          <!-- <span class="long-text" [ngClass]="{'text-danger' : item.active}">{{item.SurchargeCode}} - {{item.SurchargeName}}</span>
+          <span class="amount-text" [ngClass]="{'text-danger' : item.active}">{{item.CurrencyCode}} {{item.TotalAmount | number: '1.2-2'}}</span> -->
+          <span class="long-text">{{item.SurchargeCode}} - {{item.SurchargeName}}</span>
+          <span class="amount-text">{{item.CurrencyCode}} {{item.TotalAmount | number: '1.2-2'}}</span>
+        </li>
+      </ul>
+      <hr *ngIf="additionalData.length">
+      <h6 *ngIf="valueAddedData.length">Value Added Services</h6>
+      <ul class="list-group list-group-flush" *ngIf="valueAddedData">
+        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of valueAddedData">
+          <span class="long-text">{{item.SurchargeCode}} - {{item.SurchargeName}}</span>
+          <span class="amount-text">{{item.CurrencyCode}} {{item.TotalAmount | number: '1.2-2'}}</span>
+          <!-- <span class="long-text" [ngClass]="{'text-danger' : item.active}" *ngIf="item.TotalAmount > 0">{{item.SurchargeCode}} - {{item.SurchargeName}}</span> -->
+          <!-- <span class="amount-text" [ngClass]="{'text-danger' : item.active}" *ngIf="item.TotalAmount > 0">{{item.CurrencyCode}} {{item.TotalAmount | number: '1.2-2'}}</span> -->
+        </li>
+      </ul>
+      <hr *ngIf="valueAddedData.length">
+
+      <h6 *ngIf="taxData.length">Taxes</h6>
+       <ul class="list-group list-group-flush" *ngIf="taxData">
+         <li class="list-group-item d-flex justify-content-between align-items-center"
+           *ngFor="let item of taxData">
+           <span class="long-text">{{item.SurchargeCode}} - {{item.SurchargeName}}</span>
+           <span class="amount-text">{{item.CurrencyCode}} {{item.TotalAmount | number: '1.2-2'}}</span>
+           <!-- <span class="long-text" [ngClass]="{'text-danger' : item.active}" *ngIf="item.TotalAmount > 0">{{item.SurchargeCode}} - {{item.SurchargeName}}</span> -->
+           <!-- <span class="amount-text" [ngClass]="{'text-danger' : item.active}" *ngIf="item.TotalAmount > 0">{{item.CurrencyCode}} {{item.TotalAmount | number: '1.2-2'}}</span> -->
+         </li>
+       </ul>
+       <hr *ngIf="taxData.length">
+        <ul class="list-group list-group-flush">
+          <li *ngIf="discountedAmount"  class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="long-text">{{discountData?.SurchargeCode}} - {{discountData?.SurchargeName}}</span>
+            <span class="amount-text">
+              <span>{{currencyCode}} {{discountedAmount | number: '1.2-2'}}</span>              
+            </span>
+          </li>
+          <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong class="text-primary">Total</strong>
+            <span class="text-primary text-right">
+              <strong>{{currencyCode}} {{subTotal | number: '1.2-2'}}</strong><br>
+            </span>
+          </li> -->
+        </ul>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <strong >Total</strong>
+          <span  *ngIf="totalAmount">
+            <strong>{{currencyCode}} {{totalAmount | number: '1.2-2'}}</strong>
+          </span>
+          <!-- <span *ngIf="insuranceAmount > 0 && includeInsuranceAmount" class="text-primary">
+            <strong>{{currencyCode}} {{subTotal + insuranceAmount - prevInsurance| number: '1.2-2'}}</strong>
+          </span>
+          <span *ngIf="!insuranceAmount" class="text-primary">
+            <strong>{{currencyCode}} {{subTotal - prevInsurance | number: '1.2-2'}}</strong>
+          </span> -->
+        </li>
+        <!-- <li *ngIf="discountedPrice > 0" class="list-group-item d-flex justify-content-between align-items-center">
+          <strong class="text-success">Total (after discount)</strong>
+          <span>
+            <strong>{{currency}} {{discountedPrice | number: '1.2-2'}}</strong>
+          </span>
+        </li> -->
+      </ul>
+    </div>
+  </div>
+</section>

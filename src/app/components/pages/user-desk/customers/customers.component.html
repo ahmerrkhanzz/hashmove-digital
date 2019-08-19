@@ -1,0 +1,107 @@
+<section class="partners mb-5">
+  <div class="row">
+    <div class="col-xl-6 col-sm-12">
+      <h2>Customers</h2>
+    </div>
+    <div class="col-xl-6 col-sm-12 reports-top-btn mt-1 text-right ">
+
+      <a [hidden]="true" class="pull-right hvr-icon-forward new-vendor" (click)="addCustomer()" href="javascript:;">
+        <span class="link-hover-secondary mr-1">Add new customer</span>
+        <i class="fa fa-angle-right hvr-icon"></i>
+      </a>
+    </div>
+  </div>
+  <hr class="hr-solid mt-2">
+  <div class="row mb-3">
+    <div class="col-xl-6 col-sm-12 vendor-search mt-2">
+      <input type="text " name="userSearch " id="" class="user-search " placeholder="search by company or location "
+        [(ngModel)]="searchUser">
+    </div>
+
+    <div class="col-xl-6 col-sm-12 sortby d-flex justify-content-end align-items-center">
+      <div class="btn-group">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Sort By: Date added
+        </button>
+        <div class="dropdown-menu">
+          Sort By: Date added
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Contact Person</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="ng-star-inserted"
+            *ngFor="let customer of customers | search : searchUser | paginate: userPaginationConfig">
+            <td class="shipping-line d-flex">
+              <img alt="" *ngIf="customer.companyLogo" src="{{getProviderImage(customer.companyLogo)}}" class="ml-2 mr-4 mt-1" onerror="'../../../../../favicon.ico'">
+              <img alt="" *ngIf="!customer.companyLogo" src="../../../../../favicon.ico" class="ml-2 mr-4 mt-1">
+              <div>{{customer.companyName}}<span class="sub-detail">{{customer.createdDate}}</span></div>
+            </td>
+            <td>
+              <div class="flag-container">
+                <img type="image/svg+xml"
+                  src="../../../../assets/images/flags/4x3/{{customer.countryCode | lowercase}}.svg">
+              </div> <span class="text-truncate">{{customer.cityName}}, {{customer.countryName}}</span>
+            </td>
+            <td class="ml-2">{{customer.contactPerson}}</td>
+            <td>
+              <!-- <button type="button" class="btn btn-outline-primary mr-2 btn-block" placement="bottom-right" [ngbPopover]="option">
+                Contact
+              </button>
+              <ng-template #option>
+                <div class="option-popup fadeIn animated">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      {{customer.primaryPhone}}
+                    </li>
+                    <li class="list-group-item">
+                      {{customer.primaryEmail}}
+                    </li>
+                  </ul>
+                </div>
+              </ng-template> -->
+              <button class="btn btn-outline-primary hvr-sweep-to-right btn-block pull-right view-booking-shipment-detail-btn" placement="bottom"
+                [ngbPopover]="contact">Contact</button>
+              <ng-template #contact>
+                <div class="contact-popup fadeIn animated">
+                  <a [href]="'mailto:' + customer.primaryEmail" class="mb-1">
+                    <img src="../../../../../assets/images/icons/icon_email.svg" alt="mail_Icon" class="icon-size-16">
+                    <span>{{customer.primaryEmail}}</span>
+                  </a>
+                  <p>
+                    <img src="../../../../assets/images/icons/mob-icon.svg" alt="Contact_Icon" class="icon-size-16">
+                    <strong align="middle">{{customer.primaryPhone}}</strong>
+                  </p>
+                </div>
+              </ng-template>
+            </td>
+          </tr>
+          <tr *ngIf="(customers | search: searchUser)?.length===0 ">
+            <td colspan="4">
+              <p>No user found for the search criteria</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="paginationBox text-right mt-3 pull-right col-12 "
+      *ngIf="customers && customers.length> userPaginationConfig.itemsPerPage">
+      <pagination-controls [id]="userPaginationConfig.id" [maxSize]="maxSize" [directionLinks]="directionLinks"
+        [autoHide]="autoHide" [previousLabel]="labels.previousLabel" [nextLabel]="labels.nextLabel"
+        (pageChange)="onPageChange($event)"></pagination-controls>
+    </div>
+  </div>
+</section>

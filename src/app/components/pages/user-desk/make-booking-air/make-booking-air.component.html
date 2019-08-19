@@ -1,0 +1,521 @@
+<div class="make-booking-air">
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-12">
+          <a class="hvr-icon-back grey-anc-btn mb-3" href="javascript:;" title="Go Back">
+            <img src="../../../../../assets/images/icons/icon_arrow_left.svg" alt="icon" class="icon-size-14 hvr-icon">
+            <span class="link-hover-grey">Go Back</span>
+          </a>
+          <h2>
+            Make Booking
+          </h2>
+          <p class="sub-title mb-4">Make a new booking on behalf of your customer.</p>
+          <h5 class="mt-3 d-inline-block mb-0">Route Details</h5>
+          <hr class="hr-solid">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-4 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+      <div class="form-group city-dropdown">
+        <label>Origin</label>
+        <div class="flag-container">
+          <!-- <img src="assets/images/icons/flags/4x3/pk.svg" type="image/svg+xml"> -->
+        </div>
+        <input type="text" class="form-control" maxlength="100" placeholder="eg: Karachi">
+        <ng-template>
+          <div class="flag-container mr-1">
+            <img src="assets/images/icons/flags/4x3/pk.svg" class="">
+          </div>
+          <ngb-highlight></ngb-highlight>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+      <div class="form-group city-dropdown">
+        <label>Destination</label>
+        <div class="flag-container">
+          <!-- <img src="assets/images/icons/flags/4x3/pk.svg" type="image/svg+xml"> -->
+        </div>
+        <input type="text" class="form-control" maxlength="100" placeholder="eg: Dubai">
+        <ng-template>
+          <div class="flag-container mr-1">
+            <img src="assets/images/icons/flags/4x3/pk.svg" class="">
+          </div>
+          <ngb-highlight></ngb-highlight>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 mt-3">
+      <h5>Load Details</h5>
+      <hr class="hr-solid">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-4 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+      <div class="form-group">
+        <label>Cargo Type</label>
+        <select class="form-control">
+          <option>1</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+      <div class="form-group">
+        <label>Sub-Cargo Type</label>
+        <select class="form-control">
+          <option>1</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-3 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+      <div class="form-group">
+        <label>Number of Packages</label>
+        <input type="text" maxlength="100" class="form-control" placeholder="0">
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+      <div class="form-group">
+        <label>Actual Weight</label>
+        <div class="input-group">
+          <input class="form-control" type="text" placeholder="0">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <select class="form-control">
+                <option>1</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+      <div class="form-group">
+        <label>Chargeable Weight</label>
+        <div class="input-group">
+          <input class="form-control" type="text" placeholder="0">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <select class="form-control">
+                <option>1</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+      <div class="form-group">
+        <label>What's in the Shipment?</label>
+        <textarea class="form-control" formcontrolname="address" maxlength="200" ng-reflect-maxlength="200"
+          ng-reflect-name="address"
+          placeholder="List down the exact items in your cargo. for example: Rice, Cupboards, Jet Engine, Apparel, Medicines, Flowers, Seeds etc.">                          </textarea>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 mt-3">
+      <h5>Cargo Schedule</h5>
+      <hr class="hr-solid mb-4">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-4 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+      <div class="form-group">
+        <label>Airline</label>
+        <input type="text" maxlength="100" class="form-control" placeholder="0">
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-8 col-sm-12">
+      <div class="form-group date-control">
+        <div class="form-group date-control">
+          <label>Departure Date</label>
+          <div class="dateIcon">
+            <input autocomplete="off" #rangeDp class="form-control" placeholder="DD / MM / YYYY" name="dp"
+              [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right"
+              [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate"
+              #dp="ngbDatepicker" (click)="dp.toggle()" (ngModelChange)="filterBydate(model, 'LCL')" />
+          </div>
+          <!-- <ng-template #t let-date="date" let-focused="focused">
+                    <span class="custom-day" [class.range]="
+                              isFrom(date) ||
+                              isTo(date) ||
+                              isInside(date) ||
+                              isHovered(date)
+                            " [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)"
+                      (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                      {{ date.day }}
+                    </span>
+                  </ng-template> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-4 col-lg-6 col-md-8 col-sm-12">
+      <div class="form-group date-control">
+        <div class="form-group date-control">
+          <label>Booking Cut off </label>
+          <div class="dateIcon">
+            <input autocomplete="off" #rangeDp class="form-control" placeholder="DD / MM / YYYY" name="dp"
+              [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right"
+              [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate"
+              #dp="ngbDatepicker" (click)="dp.toggle()" (ngModelChange)="filterBydate(model, 'LCL')" />
+          </div>
+          <!-- <ng-template #t let-date="date" let-focused="focused">
+                      <span class="custom-day" [class.range]="
+                                isFrom(date) ||
+                                isTo(date) ||
+                                isInside(date) ||
+                                isHovered(date)
+                              " [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)"
+                        (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                        {{ date.day }}
+                      </span>
+                    </ng-template> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-8 col-sm-12">
+      <div class="form-group date-control">
+        <div class="form-group date-control">
+          <label>ETA Destination</label>
+          <div class="dateIcon">
+            <input autocomplete="off" #rangeDp class="form-control" placeholder="DD / MM / YYYY" name="dp"
+              [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right"
+              [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate"
+              #dp="ngbDatepicker" (click)="dp.toggle()" (ngModelChange)="filterBydate(model, 'LCL')" />
+          </div>
+          <!-- <ng-template #t let-date="date" let-focused="focused">
+                        <span class="custom-day" [class.range]="
+                                  isFrom(date) ||
+                                  isTo(date) ||
+                                  isInside(date) ||
+                                  isHovered(date)
+                                " [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)"
+                          (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                          {{ date.day }}
+                        </span>
+                      </ng-template> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 mt-3">
+      <h5>Shipper Details</h5>
+      <hr class="hr-solid mb-4">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-4 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+      <div class="form-group">
+        <label>Customer</label>
+        <input type="text" maxlength="100" class="form-control" placeholder="Customer">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-4 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+      <div class="form-group">
+        <label>Shipper</label>
+        <input type="text" maxlength="100" class="form-control" placeholder="Shipper">
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+      <div class="form-group">
+        <label>Consignee</label>
+        <input type="text" maxlength="100" class="form-control" placeholder="Consignee">
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 mt-1">
+      <h5>Additional Details</h5>
+      <hr class="hr-solid">
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-8 col-sm-12">
+      <div class="form-group date-control">
+        <div class="form-group date-control">
+          <label>Booking Date</label>
+          <div class="dateIcon">
+            <input autocomplete="off" #rangeDp class="form-control" placeholder="DD / MM / YYYY" name="dp"
+              [(ngModel)]="model" ngbDatepicker [dayTemplate]="t" [autoClose]="false" placement="bottom-right"
+              [outsideDays]="true" [navigation]="false" [displayMonths]="2" [maxDate]="maxDate" [minDate]="minDate"
+              #dp="ngbDatepicker" (click)="dp.toggle()" (ngModelChange)="filterBydate(model, 'LCL')" />
+          </div>
+          <!-- <ng-template #t let-date="date" let-focused="focused">
+                    <span class="custom-day" [class.range]="
+                              isFrom(date) ||
+                              isTo(date) ||
+                              isInside(date) ||
+                              isHovered(date)
+                            " [class.faded]="isHovered(date) || isInside(date)" (click)="onDateSelection(date)"
+                      (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                      {{ date.day }}
+                    </span>
+                  </ng-template> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-8 col-sm-12">
+      <div class="form-group">
+        <label for="">Job No.</label>
+        <input type="text" maxlength="100" class="form-control" placeholder="Job No.">
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-8 col-sm-12">
+      <div class="form-group">
+        <label for="">Mode</label>
+        <input type="text" maxlength="100" class="form-control" placeholder="Mode">
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 mt-1">
+      <h5>Rate</h5>
+      <hr class="hr-solid">
+      <h5 class="model-sub-head mt-4 mb-3 pt-2">Rate</h5>
+    </div>
+    <div class="col-xl-3 col-md-6 col-sm-12">
+      <div class="row combine-filed-popup">
+        <div class="col-6 pr-0">
+          <div class="combine-filed-popup-left">Currency</div>
+        </div>
+        <div class="col-6 pl-0">
+          <div class="origin combine-filed-popup-right">
+            <div class="flag-container">
+              <!-- <img
+                        src="{{'../../../../../assets/images/flags/4x3/' + (selectedCurrency.imageName | lowercase) + '.svg'}}"
+                        type="image/svg+xml" class="mw-100 w-auto h-auto mh-100"> -->
+            </div>
+            <!-- <input type="text" placeholder="AED"  class="form-control"
+                      [ngbTypeahead]="currencies" [resultTemplate]="crt" [inputFormatter]="currencyFormatter"
+                      [ngClass]="{'routeSelected': selectedCurrency && selectedCurrency.imageName}"
+                      [disabled]="selectedData.mode === 'publish'"> -->
+            <input type="text" placeholder="AED" class="form-control">
+            <!-- <ng-template #crt let-r="result">
+                      <div class="d-flex">
+                        <div class="flag-container">
+                          <img src="{{'../../../../assets/images/flags/4x3/' + (r.imageName | lowercase) + '.svg'}}"
+                            style="max-width:20px;max-height:22px;"></div>
+                        <ngb-highlight [result]="r.shortName"></ngb-highlight>
+                      </div>
+                    </ng-template> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-md-6 col-sm-12">
+      <div class="row combine-filed-popup">
+        <div class="col-7 pr-0">
+          <div class="combine-filed-popup-left">Rate</div>
+        </div>
+        <div class="col-5 pl-0">
+          <div class="form-group combine-filed-popup-right" [ngClass]="showDoubleRates ? 'hasDoubleRates' : ''">
+            <!-- <span>Single</span>
+                <span>Double</span> -->
+            <!-- <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00"
+                      [(ngModel)]="selectedPrice" (keypress)="numberValidwithDecimal($event)">
+                    <input type="text" *ngIf="showDoubleRates" maxlength="1" maxlength="15" class="form-control"
+                      placeholder="0.00" [(ngModel)]="couplePrice" (keypress)="numberValidwithDecimal($event)"> -->
+            <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00">
+            <!-- <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00"> -->
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row combine-filed-popup">
+            <div class="col-6 pr-0">
+              <div class="combine-filed-popup-left">
+                 <span *ngIf="selectedData.data.UsageType === 'SHARED'">{{sharedWarehousePricing[1]?.addChrName}}</span> 
+                 <span *ngIf="selectedData.data.UsageType === 'FULL'">{{fullWarehousePricing[1]?.addChrName}}</span> 
+                <span>{{doublePriceTag}}</span>
+              </div>
+            </div>
+            <div class="col-6 pl-0">
+              <div class="form-group combine-filed-popup-right">
+                 <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00"
+                      [(ngModel)]="couplePrice" (keypress)="numberValidwithDecimal($event)"> 
+                <input type="text" maxlength="1" maxlength="15" class="form-control" placeholder="0.00">
+              </div>
+            </div>
+          </div> -->
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 mt-1">
+      <h5 class="model-sub-head mt-3 mb-3 pull-left">Additional Charges At Origin (Advance)</h5>
+    </div>
+    <div class="col-6">
+      <h6 class="model-sub-head-action mt-4 text-right ">Switch to "Simpler Method" (baserate + per kg)</h6>
+    </div>
+    <div class="col-xl-4 col-md-6 col-12">
+      <div class="row combine-filed-popup">
+        <div class="d-flex ml-3 mr-3 mb-2 w-100" [ngClass]="addOriginActive ? 'active' : ''">
+          <div class="col-7 pr-0 pl-0">
+            <div ngbDropdown #originDropdown="ngbDropdown" class="combine-filed-popup-left-btn"
+              (openChange)="dropdownToggle($event, 'origin')">
+              <!-- <button class="btn has-open" id="{{selectedOrigins[i]?.addChrName}}" placement="top"
+                        ngbTooltip="{{selectedOrigins[i]?.addChrName}} - ({{selectedOrigins[i]?.addChrBasis}})"
+                        [disableTooltip]="!selectedOrigins[i]?.addChrName" ngbDropdownToggle>
+                        {{selectedOrigins[i]?.addChrName || 'Select' | limitTo : 30 }}
+                      </button> -->
+              <!-- <div aria-labelledby="originExport">
+                      <button id="{{selectedOrigins[i]?.addChrName}}" class="dropdown-item custom-label has-open"
+                        (click)="showCustomChargesForm('origin')">
+                        <img src="../../../../assets/images/icons/icon_add.svg" width="16" alt=""> Add Custom Label
+                      </button>
+                      <ng-container>
+                        <button class="dropdown-item" *ngFor="let charge of originsList"
+                          [id]="'orglist_' + charge?.addChrID"
+                          (click)="selectCharges('EXPORT', charge, i)">{{charge.addChrName}}</button>
+                      </ng-container>
+                      <div class="row dropdown-item charges-form">
+                        <div class="col-12 mt-2">
+                          <div class="form-group">
+                            <input class="form-control has-open" type="text"
+                              [ngClass]="!labelValidate ?  'inputError' : ''" [(ngModel)]="lablelName"
+                              (focus)="labelValidate = true" placeholder="Charge Label / Term">
+                            <small class="text-danger d-block">Please provide name for your
+                              custom
+                              label</small>
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <div class="form-group">
+                            <select class="form-control has-open"
+                              [ngClass]="!surchargeBasisValidate ?  'inputError' : ''" [(ngModel)]="surchargeType"
+                              (focus)="surchargeBasisValidate = true">
+                              <option value="" hidden selected>Select Surcharge Basis</option>
+                              <option *ngFor="let item of surchargesList" [value]="item.codeValID">
+                                {{item.codeValDesc}}</option>
+                            </select>
+                            <small class="text-danger d-block">Please select
+                              surcharge
+                              basis
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <button class="btn btn-primary mt-1 mb-2 has-open hvr-sweep-to-right w-100"
+                            (click)="addCustomLabel('origin')">Add Label
+                          </button>
+                        </div>
+                      </div>
+                    </div> -->
+            </div>
+          </div>
+          <div class="col-5 pl-0 pr-0">
+            <div class="form-group mb-0 combine-filed-popup-right">
+              <input type="text" maxlength="15" class="form-control" placeholder="0.00">
+            </div>
+          </div>
+        </div>
+        <img src="../../../../assets/images/icons/icon_del_round.svg" alt="delete-icon"
+          class="icon-size-16 combine-filed-popup-delete pointer" (click)="removeAdditionalCharge('origin', origin)">
+      </div>
+    </div>
+    <div class="col-12">
+      <a (click)="addMoreCharges('origin')" class="hvr-icon-forward m-0 link-hover additional mb-2 mt-2"
+        href="javascript:;"><img alt="" class="mr-1 icon-size-16 mb-1"
+          src="../../../../assets/images/icons/icon_add.svg" width="16px"><span class="mr-1">Add More
+          Charges</span></a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 mt-1">
+      <h5 class="model-sub-head mt-3 mb-3 pull-left">Additional Charges At Destination (Advance)</h5>
+    </div>
+    <div class="col-6">
+      <h6 class="model-sub-head-action mt-4 text-right ">Switch to "Simpler Method" (baserate + per kg)</h6>
+    </div>
+    <div class="col-xl-4 col-md-6 col-12">
+      <div class="row combine-filed-popup">
+        <div class="d-flex ml-3 mr-3 mb-2 w-100" [ngClass]="addDestinationActive ? 'active' : ''">
+          <div class="col-7 pr-0 pl-0">
+            <div ngbDropdown #destinationDropdown="ngbDropdown" (openChange)="dropdownToggle($event, 'destination')"
+              class="combine-filed-popup-left-btn" placement="top-left">
+              <!-- <button class="btn has-open" id="destinationExport" placement="top"
+                        ngbTooltip="{{selectedDestinations[i]?.addChrName}} - ({{selectedDestinations[i]?.addChrBasis}})"
+                        [disableTooltip]="!selectedDestinations[i]?.addChrName" ngbDropdownToggle>
+                        {{selectedDestinations[i]?.addChrName || 'Select' | limitTo : 30 }} </button> -->
+              <div ngbDropdownMenu aria-labelledby="destinationExport">
+                <button class="dropdown-item custom-label has-open" (click)="showCustomChargesForm('destination')">
+                  <img src="../../../../assets/images/icons/icon_add.svg" width="16" alt=""> Add Custom Label
+                </button>
+                <ng-container>
+                  <button class="dropdown-item" *ngFor="let charge of destinationsList"
+                    [id]="'destlist_' + charge?.addChrID"
+                    (click)="selectCharges('IMPORT', charge, i)">{{charge.addChrName}}</button>
+                </ng-container>
+                <div class="row dropdown-item charges-form">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label class="mt-0">Add Custom Label</label>
+                      <input class="form-control has-open" [ngClass]="!labelValidate ?  'inputError' : ''" type="text"
+                        [(ngModel)]="lablelName" (focus)="labelValidate = true" placeholder="Charge Label / Term">
+                      <small class="text-danger d-block">Please provide name for your
+                        custom
+                        label</small>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <select class="form-control has-open" [ngClass]="!surchargeBasisValidate ?  'inputError' : ''"
+                        [(ngModel)]="surchargeType" (focus)="surchargeBasisValidate = true">
+                        <option *ngFor="let item of surchargesList" selected [value]="item.codeValID">
+                          {{item.codeValDesc}}</option>
+                      </select>
+                      <small class="text-danger d-block">Please select
+                        surcharge
+                        basis
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button class="btn btn-primary mt-3 has-open hvr-sweep-to-right w-100"
+                      (click)="addCustomLabel('destination')">Add Label</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-5 pl-0 pr-0">
+            <div class="form-group mb-0 combine-filed-popup-right">
+              <input type="text" maxlength="15" class="form-control" placeholder="0.00">
+            </div>
+          </div>
+        </div>
+        <img src="../../../../assets/images/icons/icon_del_round.svg" alt="delete-icon"
+          class="icon-size-16 combine-filed-popup-delete pointer"
+          (click)="removeAdditionalCharge('destination', destination)">
+      </div>
+    </div>
+    <div class="col-12">
+      <a (click)="addMoreCharges('destination')" class="hvr-icon-forward m-0 link-hover additional mb-4 mt-2"
+        href="javascript:;"><img alt="" class="mr-1 icon-size-16 mb-1"
+          src="../../../../assets/images/icons/icon_add.svg" width="16px"><span class="mr-1">Add More
+          Charges</span></a>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-12 mb-2">
+      <hr class="hr-solid">
+    </div>
+    <div class="col-6">
+      <button class="btn hvr-sweep-to-right" disabled="">CANCEL</button>
+    </div>
+    <div class="col-6 d-flex justify-content-end">
+      <button class="btn btn-outline-primary hvr-sweep-to-right mr-4">SAVE BOOKING</button>
+      <button class="btn btn-primary hvr-sweep-to-right">CONFIRM BOOKING</button>
+    </div>
+  </div>
+</div>

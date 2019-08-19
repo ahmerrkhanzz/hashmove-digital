@@ -1,0 +1,8 @@
+<div class="step" [ngClass]="{'isActive':active, 'completed':completed}">
+    <span *ngIf="completed" class="completed">
+        <img class="step-number animated heartBeat" src="../../../../../assets/images/icons/icon_check.svg" alt="tick">
+    </span>
+    <div class="step-title">
+        <ng-content></ng-content>
+    </div>
+</div>

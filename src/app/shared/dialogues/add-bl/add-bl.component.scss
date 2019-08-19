@@ -1,0 +1,18 @@
+@import "../../../../assets/scss/_variables";
+
+.update-bl {
+// width: 460px;
+.modal-header {
+    .modal-title {
+font-family: $font-proxima ;
+font-size: 1.25rem;
+font-weight: $font-proxima-weight-semibold;
+    }
+}
+
+.submit-btn {
+    width: 200px;
+    height:47px;
+    text-transform: uppercase;
+}
+}

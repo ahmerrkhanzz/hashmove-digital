@@ -1,0 +1,108 @@
+<div class="updatePrice">
+  <app-loader-main *ngIf="loading"></app-loader-main>
+  <div class="user-modal animated fadeIn">
+    <div class="modal-header">
+      <h4 class="user-modal-title">Update Price</h4>
+      <a class="pointer crossIcon" (click)="closeModal()">
+        <img src="../../../../assets/images/icons/icon_close.svg" alt="close" class="icon-size-16" />
+      </a>
+    </div>
+    <div class="modal-body">
+      <form class="form-component">
+        <!-- input row -->
+        <div class="form-group">
+          <label>Description</label>
+          <div class="alert alert-secondary" role="alert">
+            {{data.SpecialRequestDesc}}
+          </div>
+        </div>
+        <!--/ input row -->
+        <!-- input row -->
+        <div class="form-group">
+          <div class="container-main">
+            <label>Container</label>
+            <div class="row">
+              <div class="col-xl-6 col-md-6 col-12" *ngFor="let container of containers">
+                <div class="card container-boxes disabled">
+                  <span class="count-triangle">
+                    <span>{{container.bookingContTypeQty}}</span>
+                  </span>
+                  <div class="card-body mb-2">
+                    <p class="card-text">
+                      {{container.containerSpecDesc}}
+                    </p>
+                    <div class="image-container">
+                      <img async defer src="../../../../assets/images/icons/{{container.containerSpecImage}}"
+                        alt="container-icons" class="ContainerImg20" />
+                    </div>
+                    <div class="containerInfo">
+                      <div class="container-size">
+                        <label>Size</label>
+                        <small>{{getContainerInfo(container).containerSize}}</small>
+                      </div>
+                      <div class="container-weight">
+                        <label>Max Weight</label>
+                        <small>{{container.containerWeight}} {{container.weightUnit}}</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/ input row -->
+        <!-- input row -->
+        <div class="row">
+          <div class="col-xl-7 col-lg-7 col-md-6 col-sm-6 col-12">
+            <div class="form-group mt-3">
+              <label>Your Price</label>
+              <div class="input-group">
+                <div class="input-group-prepend col-4 p-0">
+                  <div class="input-group-text">
+                    <div class="city-dropdown currency">
+                      <div class="flag-container" *ngIf="selectedCurrency && selectedCurrency?.imageName">
+                        <img
+                          src="{{'../../../../../assets/images/flags/4x3/' + (selectedCurrency?.imageName | lowercase) + '.svg'}}"
+                          type="image/svg+xml">
+                      </div>
+                      <input type="text"
+                        class="form-control routeSelected" maxlength="5" name="currency" [ngModel]="selectedCurrency?.shortName" [disabled]="true">
+                    </div>
+                  </div>
+                </div>
+                <input type="text" class="form-control" name="price" [(ngModel)]="actualIndividualPrice"
+                  (keypress)="numberValidwithDecimal($event)" placeholder="0.00">
+              </div>
+              <!-- <span *ngIf="commissionValueError">
+                <p class="inputError animated fadeIn"
+                  *ngIf="commissionForm.controls['commissionValue'].hasError('required') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                  {{requiredFields}}</p>
+                <p class="inputError animated fadeIn"
+                  *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('minlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                  Range
+                  1 to 100,000</p>
+                <p class="inputError animated fadeIn"
+                  *ngIf="!commissionForm.controls['commissionValue'].hasError('pattern') && commissionForm.controls['commissionValue'].hasError('maxlength') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                  Range
+                  1 to 100,000</p>
+                <p class="inputError animated fadeIn"
+                  *ngIf="commissionForm.controls['commissionValue'].hasError('pattern') && (commissionForm.controls.commissionValue.dirty || commissionForm.controls.commissionValue.touched)">
+                  Please
+                  enter valid information</p>
+              </span> -->
+            </div>
+          </div>
+        </div>
+        <!--/ input row -->
+        <!-- input row -->
+        <div class="form-group">
+          <label>Comment (Optional)</label>
+          <textarea name="comments" [(ngModel)]="specialRequestComments" id="" cols="30" rows="10" class="form-control" placeholder="type here"></textarea>
+        </div>
+        <!--/ input row -->
+        <button type="submit" class="btn btn-primary w-100 hvr-sweep-to-right mt-2" (click)="submitPrice()" [disabled]="!selectedCurrency || !actualIndividualPrice">Submit Price</button>
+      </form>
+    </div>
+  </div>
+</div>
